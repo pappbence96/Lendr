@@ -11,8 +11,8 @@ import android.arch.persistence.room.PrimaryKey;
 )
 class ItemImage {
     @PrimaryKey(autoGenerate = true)
-    private int Id;
-    private int ItemId;
+    public int Id;
+    public int ItemId;
     //TODO: image handling
     //private Bitmap Image;
 

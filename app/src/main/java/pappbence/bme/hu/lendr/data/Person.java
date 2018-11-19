@@ -6,8 +6,8 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "person")
 public class Person {
     @PrimaryKey(autoGenerate = true)
-    private int Id;
-    private String Name;
-    private String Address;
-    private String Phone;
+    public int Id;
+    public String Name;
+    public String Address;
+    public String Phone;
 }

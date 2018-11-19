@@ -6,12 +6,12 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "category",
         foreignKeys = @ForeignKey(
-                entity = Category.class, parentColumns = "Id", childColumns = "ParentCategory"
+                entity = Category.class, parentColumns = "Id", childColumns = "ParentCategoryId"
         )
 )
 public class Category {
     @PrimaryKey(autoGenerate = true)
-    private int Id;
-    private int Name;
-    private Category ParentCategory;
+    public int Id;
+    public int Name;
+    public int ParentCategoryId;
 }

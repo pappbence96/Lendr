@@ -11,7 +11,7 @@ import android.arch.persistence.room.PrimaryKey;
 )
 public class Lend {
     @PrimaryKey(autoGenerate = true)
-        private int Id;
-    private int ItemId;
-    private int PersonId;
+    public int Id;
+    public int ItemId;
+    public int PersonId;
 }

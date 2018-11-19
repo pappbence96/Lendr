@@ -11,8 +11,16 @@ import android.arch.persistence.room.PrimaryKey;
 )
 public class LendrItem {
     @PrimaryKey(autoGenerate = true)
-    private int Id;
-    private String Name;
-    private String Description;
-    private int CategoryId;
+    public int Id;
+    public String Name;
+    public String Description;
+    public int CategoryId;
+
+    public LendrItem(){}
+    public LendrItem(int id, String name, String description, int categoryId) {
+        Id = id;
+        Name = name;
+        Description = description;
+        CategoryId = categoryId;
+    }
 }
