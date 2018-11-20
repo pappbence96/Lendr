@@ -16,8 +16,9 @@ import com.orm.SugarApp;
 import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
 import pappbence.bme.hu.lendr.data.Category;
 import pappbence.bme.hu.lendr.data.LendrItem;
+import pappbence.bme.hu.lendr.fragments.NewItemDialogFragment;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NewItemDialogListener{
     private RecyclerView recyclerView;
     private LendrItemAdapter adapter;
 
@@ -32,16 +33,18 @@ public class MainActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                new NewItemDialogFragment().show(getSupportFragmentManager(), NewItemDialogFragment.TAG);
             }
         });
 
         Category.deleteAll(Category.class);
         LendrItem.deleteAll(LendrItem.class);
 
-        Category cat = new Category("Butor", null); cat.save();
-        LendrItem i2 = new LendrItem("Asztal", "Ez meg egy masik butor, nagyon nagyon hosszu leirassal, ami valszeg nem fog kiferni a kepernyore", cat); i2.save();
-        LendrItem i1 = new LendrItem("Szek", "Ez egy butor", cat); i1.save();
+        Category cat1 = new Category("Butor", null); cat1.save();
+        Category cat2 = new Category("Jatek", null); cat2.save();
+        Category cat3 = new Category("Evoeszk.", null); cat3.save();
+        LendrItem i2 = new LendrItem("Asztal", "Ez meg egy masik butor, nagyon nagyon hosszu leirassal, ami valszeg nem fog kiferni a kepernyore", cat1); i2.save();
+        LendrItem i1 = new LendrItem("Szek", "Ez egy butor", cat1); i1.save();
 
         initRecyclerView();
     }
@@ -77,5 +80,11 @@ public class MainActivity extends AppCompatActivity{
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemCreated(LendrItem newItem) {
+        newItem.save();
+        adapter.addItem(newItem);
     }
 }

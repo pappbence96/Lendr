@@ -10,8 +10,12 @@ public class Category extends SugarRecord<Category>{
     }
 
     public Category(String name, Category parentCategory) {
-
         Name = name;
         ParentCategory = parentCategory;
+    }
+
+    @Override
+    public String toString() {
+        return Name;
     }
 }
