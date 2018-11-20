@@ -1,7 +1,9 @@
 package pappbence.bme.hu.lendr;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.orm.SugarApp;
 
 import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
@@ -30,10 +36,47 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        int floatingButtonSize = 180;
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this).setLayoutParams(new FrameLayout.LayoutParams(floatingButtonSize, floatingButtonSize));
+
+        ImageView itemIcon1 = new ImageView(this);
+        itemIcon1.setImageDrawable(getResources().getDrawable(R.drawable.round_add_black_48));
+        SubActionButton itemAddBtn = itemBuilder.setContentView(itemIcon1).build();
+
+        ImageView itemIcon2 = new ImageView(this);
+        itemIcon2.setImageDrawable(getResources().getDrawable(R.drawable.round_category_black_48));
+        SubActionButton categoryAddBtn = itemBuilder.setContentView(itemIcon2).build();
+
+        ImageView itemIcon3 = new ImageView(this);
+        itemIcon3.setImageDrawable(getResources().getDrawable(R.drawable.round_calendar_today_black_48));
+        SubActionButton lendAddBtn = itemBuilder.setContentView(itemIcon3).build();
+
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(categoryAddBtn)
+                .addSubActionView(lendAddBtn)
+                .addSubActionView(itemAddBtn)
+                .attachTo(fab)
+                .build();
+
+        itemAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new NewItemDialogFragment().show(getSupportFragmentManager(), NewItemDialogFragment.TAG);
+            }
+        });
+
+        categoryAddBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(findViewById(android.R.id.content), "Adding categories is not yet supported", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        lendAddBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(findViewById(android.R.id.content), "Adding lend intervals is not yet supported", Snackbar.LENGTH_LONG).show();
             }
         });
 
