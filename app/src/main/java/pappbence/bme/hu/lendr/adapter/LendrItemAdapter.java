@@ -35,6 +35,7 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
         LendrItem item = items.get(position);
         holder.nameTextView.setText(item.Name);
         holder.descriptionTextView.setText(item.Description);
+        holder.categoryNameTextView.setText(item.Category.Name);
         holder.item = item;
     }
 
@@ -57,6 +58,7 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
     public class LendrItemViewHolder extends RecyclerView.ViewHolder{
         TextView nameTextView;
         TextView descriptionTextView;
+        TextView categoryNameTextView;
 
         LendrItem item;
 
@@ -64,6 +66,7 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
             super(itemView);
             nameTextView = itemView.findViewById(R.id.LendrItemNameTextView);
             descriptionTextView = itemView.findViewById(R.id.LendrItemDescriptionTextView);
+            categoryNameTextView = itemView.findViewById(R.id.LendrItemCategoryNameTextView);
         }
     }
 }

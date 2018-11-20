@@ -1,10 +1,7 @@
 package pappbence.bme.hu.lendr;
 
-import android.arch.persistence.room.Room;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,17 +10,16 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.List;
+
+import com.orm.SugarApp;
 
 import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
-import pappbence.bme.hu.lendr.data.LendrDatabase;
+import pappbence.bme.hu.lendr.data.Category;
 import pappbence.bme.hu.lendr.data.LendrItem;
 
 public class MainActivity extends AppCompatActivity{
     private RecyclerView recyclerView;
     private LendrItemAdapter adapter;
-
-    private LendrDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,18 +32,21 @@ public class MainActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO implement shopping item creation
+
             }
         });
 
-        database = Room.databaseBuilder(
-                getApplicationContext(),
-                LendrDatabase.class,
-                "lendr-item-list"
-        ).build();
+        Category.deleteAll(Category.class);
+        LendrItem.deleteAll(LendrItem.class);
+
+        Category cat = new Category("Butor", null); cat.save();
+        LendrItem i2 = new LendrItem("Asztal", "Ez meg egy masik butor, nagyon nagyon hosszu leirassal, ami valszeg nem fog kiferni a kepernyore", cat); i2.save();
+        LendrItem i1 = new LendrItem("Szek", "Ez egy butor", cat); i1.save();
 
         initRecyclerView();
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -73,32 +72,10 @@ public class MainActivity extends AppCompatActivity{
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.MainRecyclerView);
         adapter = new LendrItemAdapter();
-        adapter.addItem(new LendrItem(0, "Valami", "Nem tudom", 0));
-        adapter.addItem(new LendrItem(1, "Aasd", "", 0));
-        adapter.addItem(new LendrItem(2, "gsdgsf", "Ez egy komment", 1));
-        adapter.addItem(new LendrItem(3, "Vaasd355lami", "Nem tudom", 1))   ;
-        adapter.addItem(new LendrItem(4, "4213", "Nem tudom", 0));
-        adapter.addItem(new LendrItem(5, "ASDasF", "Nem tudom", 2));
 
+        adapter.update(LendrItem.listAll(LendrItem.class));
 
-        //loadItemsInBackground();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
-
-    private void loadItemsInBackground() {
-        new AsyncTask<Void, Void, List<LendrItem>>() {
-
-            @Override
-            protected List<LendrItem> doInBackground(Void... voids) {
-                return database.lendrItemDao().getAll();
-            }
-
-            @Override
-            protected void onPostExecute(List<LendrItem> items) {
-                adapter.update(items);
-            }
-        }.execute();
-    }
-
 }

@@ -1,17 +1,17 @@
 package pappbence.bme.hu.lendr.data;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
+import com.orm.SugarRecord;
 
-@Entity(tableName = "category",
-        foreignKeys = @ForeignKey(
-                entity = Category.class, parentColumns = "Id", childColumns = "ParentCategoryId"
-        )
-)
-public class Category {
-    @PrimaryKey(autoGenerate = true)
-    public int Id;
-    public int Name;
-    public int ParentCategoryId;
+public class Category extends SugarRecord<Category>{
+    public String Name;
+    public Category ParentCategory;
+
+    public Category() {
+    }
+
+    public Category(String name, Category parentCategory) {
+
+        Name = name;
+        ParentCategory = parentCategory;
+    }
 }

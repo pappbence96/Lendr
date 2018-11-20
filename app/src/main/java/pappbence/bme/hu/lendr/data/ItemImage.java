@@ -1,19 +1,7 @@
 package pappbence.bme.hu.lendr.data;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
+import com.orm.SugarRecord;
 
-@Entity(tableName = "itemimage",
-        foreignKeys = @ForeignKey(
-                entity = LendrItem.class, parentColumns = "Id", childColumns = "ItemId"
-        )
-)
-class ItemImage {
-    @PrimaryKey(autoGenerate = true)
-    public int Id;
-    public int ItemId;
-    //TODO: image handling
-    //private Bitmap Image;
-
+public class ItemImage extends SugarRecord<ItemImage>{
+    public LendrItem Item;
 }
