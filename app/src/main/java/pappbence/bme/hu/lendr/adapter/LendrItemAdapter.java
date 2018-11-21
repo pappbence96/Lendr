@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import pappbence.bme.hu.lendr.R;
@@ -37,6 +39,29 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
         holder.descriptionTextView.setText(item.Description);
         holder.categoryNameTextView.setText(item.Category.Name);
         holder.item = item;
+    }
+
+    public void SortByItemName(){
+        Sort(new Comparator<LendrItem>() {
+            @Override
+            public int compare(LendrItem o1, LendrItem o2) {
+                return o1.Name.compareTo(o2.Name);
+            }
+        });
+    }
+
+    public void SortByCategoryName(){
+        Sort(new Comparator<LendrItem>() {
+            @Override
+            public int compare(LendrItem o1, LendrItem o2) {
+                return o1.Category.compareTo(o2.Category);
+            }
+        });
+    }
+
+    private void Sort(Comparator<LendrItem> comparator){
+        Collections.sort(items, comparator);
+        notifyDataSetChanged();
     }
 
     @Override

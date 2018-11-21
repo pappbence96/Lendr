@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="24dip">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Item name"/>
-
-    <EditText
+    <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/ItemNameEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dip"
-        android:text="Item description"/>
+        android:hint="Item name"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelText="Item name"
+        />
 
-    <EditText
+    <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/ItemDescriptionEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="Item description"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelText="Item description"/>
 
     <TextView
         android:layout_width="wrap_content"

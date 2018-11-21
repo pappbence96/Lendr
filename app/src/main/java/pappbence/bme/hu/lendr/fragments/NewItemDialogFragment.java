@@ -6,20 +6,20 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
+import fr.tvbarthel.lib.blurdialogfragment.SupportBlurDialogFragment;
 import pappbence.bme.hu.lendr.R;
 import pappbence.bme.hu.lendr.data.Category;
 import pappbence.bme.hu.lendr.data.LendrItem;
 
-public class NewItemDialogFragment extends DialogFragment {
+public class NewItemDialogFragment extends SupportBlurDialogFragment {
     public static final String TAG = "NewItemDialogFragment";
     private EditText nameEditText;
     private EditText descriptionEditText;
@@ -74,5 +74,35 @@ public class NewItemDialogFragment extends DialogFragment {
         categorySpinner.setAdapter(new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_dropdown_item, Category.listAll(Category.class)));
         return contentView;
+    }
+
+    @Override
+    protected boolean isDebugEnable() {
+        return false;
+    }
+
+    @Override
+    protected float getDownScaleFactor() {
+        return 5;
+    }
+
+    @Override
+    protected int getBlurRadius() {
+        return 7;
+    }
+
+    @Override
+    protected boolean isDimmingEnable() {
+        return true;
+    }
+
+    @Override
+    protected boolean isActionBarBlurred() {
+        return true;
+    }
+
+    @Override
+    protected boolean isRenderScriptEnable() {
+        return true;
     }
 }

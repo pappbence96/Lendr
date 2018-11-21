@@ -2,7 +2,7 @@ package pappbence.bme.hu.lendr.data;
 
 import com.orm.SugarRecord;
 
-public class LendrItem extends SugarRecord<LendrItem>{
+public class LendrItem extends SugarRecord<LendrItem> implements Comparable<LendrItem>{
     public String Name;
     public String Description;
     public Category Category;
@@ -14,5 +14,10 @@ public class LendrItem extends SugarRecord<LendrItem>{
     }
 
     public LendrItem() {
+    }
+
+    @Override
+    public int compareTo(LendrItem o) {
+        return this.Name.compareTo(o.Name);
     }
 }

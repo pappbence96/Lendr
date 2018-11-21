@@ -35,6 +35,29 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        InitAddButtons();
+        InitTestData();
+
+        initRecyclerView();
+    }
+
+    private void InitTestData() {
+        Category.deleteAll(Category.class);
+        LendrItem.deleteAll(LendrItem.class);
+
+        Category cat1 = new Category("Butor", null);
+        cat1.save();
+        Category cat2 = new Category("Jatek", null);
+        cat2.save();
+        Category cat3 = new Category("Evoeszk.", null);
+        cat3.save();
+        LendrItem i2 = new LendrItem("Asztal", "Ez meg egy masik butor, nagyon nagyon hosszu leirassal, ami valszeg nem fog kiferni a kepernyore", cat1);
+        i2.save();
+        LendrItem i1 = new LendrItem("Szek", "Ez egy butor", cat1);
+        i1.save();
+    }
+
+    private void InitAddButtons() {
         FloatingActionButton fab = findViewById(R.id.fab);
 
         int floatingButtonSize = 180;
@@ -79,19 +102,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
                 Snackbar.make(findViewById(android.R.id.content), "Adding lend intervals is not yet supported", Snackbar.LENGTH_LONG).show();
             }
         });
-
-        Category.deleteAll(Category.class);
-        LendrItem.deleteAll(LendrItem.class);
-
-        Category cat1 = new Category("Butor", null); cat1.save();
-        Category cat2 = new Category("Jatek", null); cat2.save();
-        Category cat3 = new Category("Evoeszk.", null); cat3.save();
-        LendrItem i2 = new LendrItem("Asztal", "Ez meg egy masik butor, nagyon nagyon hosszu leirassal, ami valszeg nem fog kiferni a kepernyore", cat1); i2.save();
-        LendrItem i1 = new LendrItem("Szek", "Ez egy butor", cat1); i1.save();
-
-        initRecyclerView();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,6 +120,14 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        if(id == R.id.action_sort_name){
+            adapter.SortByItemName();
+            return true;
+        }
+        if(id == R.id.action_sort_category){
+            adapter.SortByCategoryName();
             return true;
         }
 
