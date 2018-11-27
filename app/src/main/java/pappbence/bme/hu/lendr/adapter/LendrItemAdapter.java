@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,9 +17,10 @@ import java.util.List;
 import pappbence.bme.hu.lendr.R;
 import pappbence.bme.hu.lendr.data.LendrItem;
 
-public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.LendrItemViewHolder> {
+public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.LendrItemViewHolder> implements Filterable {
 
     private final List<LendrItem> items;
+    private ItemFilter filter;
 
     public LendrItemAdapter() {
         items = new ArrayList<>();
@@ -78,6 +81,54 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(filter == null){
+            filter = new ItemFilter(this, items);
+        }
+        return filter;
+    }
+
+    public class ItemFilter extends Filter{
+
+        private final LendrItemAdapter adapter;
+        private final List<LendrItem> originalItems;
+        private final List<LendrItem> filteredItems;
+
+        public ItemFilter(LendrItemAdapter adapter, List<LendrItem> items){
+            this.originalItems = items;
+            this.adapter = adapter;
+            filteredItems = new ArrayList<>();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            filteredItems.clear();
+            final FilterResults results = new FilterResults();
+
+            if(constraint.length() == 0){
+                filteredItems.addAll(originalItems);
+            } else{
+                final String filterString = constraint.toString();
+                for(LendrItem item : originalItems){
+                    if(item.Name.contains(filterString)){
+                        filteredItems.add(item);
+                    }
+                }
+            }
+            results.values = filteredItems;
+            results.count = filteredItems.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            items.clear();
+            items.addAll(filteredItems);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public class LendrItemViewHolder extends RecyclerView.ViewHolder{

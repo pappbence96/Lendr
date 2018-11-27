@@ -8,16 +8,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.orm.SugarApp;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
 import pappbence.bme.hu.lendr.data.Category;
@@ -34,6 +39,20 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        SearchView sw = findViewById(R.id.item_search_view);
+        sw.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         InitAddButtons();
         InitTestData();
