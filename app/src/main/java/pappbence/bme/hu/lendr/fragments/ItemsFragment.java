@@ -1,5 +1,6 @@
 package pappbence.bme.hu.lendr.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import pappbence.bme.hu.lendr.ItemDetailsActivity;
 import pappbence.bme.hu.lendr.MainActivity;
 import pappbence.bme.hu.lendr.R;
 import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
@@ -39,6 +41,18 @@ public class ItemsFragment extends Fragment {
     private void initRecyclerView() {
         recyclerView = view.findViewById(R.id.ItemRecyclerView);
         adapter = new LendrItemAdapter();
+
+        adapter.setItemClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+                int position = viewHolder.getAdapterPosition();
+                Intent itemDetailsIntent = new Intent(getActivity(), ItemDetailsActivity.class);
+                long itemId = adapter.getItem(position).getId();
+                itemDetailsIntent.putExtra("ItemId", itemId);
+                startActivity(itemDetailsIntent);
+            }
+        });
 
         adapter.update(LendrItem.listAll(LendrItem.class));
 

@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import pappbence.bme.hu.lendr.MainActivity;
 import pappbence.bme.hu.lendr.R;
 import pappbence.bme.hu.lendr.data.LendrItem;
 
@@ -21,6 +22,13 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
 
     private final List<LendrItem> items;
     private ItemFilter filter;
+    private MainActivity mainActivity;
+
+    private View.OnClickListener onItemClickListener;
+
+    public void setItemClickListener(View.OnClickListener clickListener) {
+        onItemClickListener = clickListener;
+    }
 
     public LendrItemAdapter() {
         items = new ArrayList<>();
@@ -91,6 +99,10 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
         return filter;
     }
 
+    public LendrItem getItem(int position) {
+        return items.get(position);
+    }
+
     public class ItemFilter extends Filter{
 
         private final LendrItemAdapter adapter;
@@ -140,6 +152,8 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
 
         public LendrItemViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setTag(this);
+            itemView.setOnClickListener(onItemClickListener);
             nameTextView = itemView.findViewById(R.id.LendrItemNameTextView);
             descriptionTextView = itemView.findViewById(R.id.LendrItemDescriptionTextView);
             categoryNameTextView = itemView.findViewById(R.id.LendrItemCategoryNameTextView);

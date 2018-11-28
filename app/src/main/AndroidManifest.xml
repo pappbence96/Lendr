@@ -3,12 +3,12 @@
     package="pappbence.bme.hu.lendr">
 
     <application
+        android:name="com.orm.SugarApp"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name="com.orm.SugarApp">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -20,11 +20,20 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="DATABASE" android:value="lendr_db.db" />
-        <meta-data android:name="VERSION" android:value="4" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="pappbence.bme.hu.lendr.data" />
+        <meta-data
+            android:name="DATABASE"
+            android:value="lendr_db.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="4" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="pappbence.bme.hu.lendr.data" />
 
+        <activity android:name=".ItemDetailsActivity"></activity>
     </application>
 
 </manifest>
