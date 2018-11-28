@@ -1,63 +1,53 @@
 package pappbence.bme.hu.lendr;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.SearchView;
 
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
-import com.orm.SugarApp;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
+import pappbence.bme.hu.lendr.adapter.CategoryAdapter;
 import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
 import pappbence.bme.hu.lendr.data.Category;
 import pappbence.bme.hu.lendr.data.LendrItem;
+import pappbence.bme.hu.lendr.fragments.CategoriesFragment;
+import pappbence.bme.hu.lendr.fragments.ItemsFragment;
+import pappbence.bme.hu.lendr.fragments.LendsFragment;
+import pappbence.bme.hu.lendr.fragments.MenuPagerAdapter;
+import pappbence.bme.hu.lendr.fragments.NewCategoryDialogFragment;
 import pappbence.bme.hu.lendr.fragments.NewItemDialogFragment;
 
-public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NewItemDialogListener{
-    private RecyclerView recyclerView;
-    private LendrItemAdapter adapter;
+public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NewItemDialogListener, NewCategoryDialogFragment.NewCategoryDialogListener{
+
+    public LendrItemAdapter itemAdapter;
+    public CategoryAdapter categoryAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        SearchView sw = findViewById(R.id.item_search_view);
-        sw.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
+        TabLayout tl = findViewById(R.id.tabLayout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        MenuPagerAdapter menuAdapter = new MenuPagerAdapter(getSupportFragmentManager());
+        menuAdapter.AddFragment(new ItemsFragment(), "Items");
+        menuAdapter.AddFragment(new CategoriesFragment(), "Categories");
+        menuAdapter.AddFragment(new LendsFragment(), "Lends");
+        viewPager.setAdapter(menuAdapter);
+        tl.setupWithViewPager(viewPager);
 
         InitAddButtons();
         InitTestData();
-
-        initRecyclerView();
     }
 
     private void InitTestData() {
@@ -111,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         categoryAddBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Snackbar.make(findViewById(android.R.id.content), "Adding categories is not yet supported", Snackbar.LENGTH_LONG).show();
+                new NewCategoryDialogFragment().show(getSupportFragmentManager(), NewCategoryDialogFragment.TAG);
             }
         });
 
@@ -142,30 +132,26 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
             return true;
         }
         if(id == R.id.action_sort_name){
-            adapter.SortByItemName();
+            itemAdapter.SortByItemName();
             return true;
         }
         if(id == R.id.action_sort_category){
-            adapter.SortByCategoryName();
+            itemAdapter.SortByCategoryName();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void initRecyclerView() {
-        recyclerView = findViewById(R.id.MainRecyclerView);
-        adapter = new LendrItemAdapter();
-
-        adapter.update(LendrItem.listAll(LendrItem.class));
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-    }
-
     @Override
     public void onItemCreated(LendrItem newItem) {
         newItem.save();
-        adapter.addItem(newItem);
+        itemAdapter.addItem(newItem);
+    }
+
+    @Override
+    public void onItemCreated(Category newCategory) {
+        newCategory.save();
+        categoryAdapter.addCategory(newCategory);
     }
 }
