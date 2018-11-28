@@ -61,4 +61,11 @@ public class ItemsFragment extends Fragment {
         activity.itemAdapter = this.adapter;
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.update(LendrItem.listAll(LendrItem.class));
+    }
+
 }

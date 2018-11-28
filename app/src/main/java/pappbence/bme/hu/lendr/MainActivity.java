@@ -154,4 +154,5 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         newCategory.save();
         categoryAdapter.addCategory(newCategory);
     }
+
 }

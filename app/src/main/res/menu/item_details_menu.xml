@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="pappbence.bme.hu.lendr.ItemDetailsActivity">
+
+    <item
+        android:id="@+id/action_add_image"
+        android:orderInCategory="200"
+        android:title="Add image"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_camera">
+    </item>
+
+    <item
+        android:id="@+id/action_edit_item"
+        android:orderInCategory="200"
+        android:title="Edit item"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_edit">
+    </item>
+
+    <item
+        android:id="@+id/action_delete_item"
+        android:orderInCategory="200"
+        android:title="Delete item"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_delete">
+    </item>
+
+</menu>
