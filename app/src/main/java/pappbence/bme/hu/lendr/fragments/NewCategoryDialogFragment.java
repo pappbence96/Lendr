@@ -18,7 +18,6 @@ import android.widget.Spinner;
 import fr.tvbarthel.lib.blurdialogfragment.SupportBlurDialogFragment;
 import pappbence.bme.hu.lendr.R;
 import pappbence.bme.hu.lendr.data.Category;
-import pappbence.bme.hu.lendr.data.LendrItem;
 
 public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
     public static final String TAG = "NewItemDialogFragment";
@@ -27,7 +26,7 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
     private Spinner categorySpinner;
 
     public interface NewCategoryDialogListener {
-        void onItemCreated(Category newCategory);
+        void onCategoryCreated(Category newCategory);
     }
 
     private NewCategoryDialogListener listener;
@@ -52,7 +51,7 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.onItemCreated(getCategory());
+                        listener.onCategoryCreated(getCategory());
                     }
                 })
                 .setNegativeButton("Cancel", null)

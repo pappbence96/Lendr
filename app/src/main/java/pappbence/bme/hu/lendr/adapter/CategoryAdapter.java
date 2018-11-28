@@ -7,11 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import pappbence.bme.hu.lendr.R;
@@ -39,7 +35,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryAdapter.CategoryViewHolder holder, int position) {
         Category category = categories.get(position);
         holder.nameTextView.setText(category.Name);
-        holder.parentTextView.setText(category.ParentCategory != null ? category.ParentCategory.Name : ""  );
+        holder.parentTextView.setText(category.ParentCategory != null ? "\u2192" + category.ParentCategory.Name : ""  );
+        List<LendrItem> items = category.getItems();
+        holder.itemCountTextView.setText(String.valueOf(items.size()));
         holder.category = category;
     }
 
@@ -59,9 +57,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         notifyDataSetChanged();
     }
 
+    public void categoryChanged(Category category) {
+        notifyDataSetChanged();
+    }
+
     public class CategoryViewHolder extends RecyclerView.ViewHolder{
         TextView nameTextView;
         TextView parentTextView;
+        TextView itemCountTextView;
 
         Category category;
 
@@ -69,6 +72,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             super(itemView);
             nameTextView = itemView.findViewById(R.id.CategoryNameTextView);
             parentTextView = itemView.findViewById(R.id.ParentCategoryTextView);
+            itemCountTextView = itemView.findViewById(R.id.ItemCountTextView);
         }
     }
 }

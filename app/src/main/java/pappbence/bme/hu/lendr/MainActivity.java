@@ -6,12 +6,11 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -147,10 +146,11 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
     public void onItemCreated(LendrItem newItem) {
         newItem.save();
         itemAdapter.addItem(newItem);
+        categoryAdapter.categoryChanged(newItem.Category);
     }
 
     @Override
-    public void onItemCreated(Category newCategory) {
+    public void onCategoryCreated(Category newCategory) {
         newCategory.save();
         categoryAdapter.addCategory(newCategory);
     }

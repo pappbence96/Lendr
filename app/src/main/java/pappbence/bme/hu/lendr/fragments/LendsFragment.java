@@ -12,10 +12,12 @@ import pappbence.bme.hu.lendr.R;
 
 public class LendsFragment extends Fragment {
 
+    View view;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.lends_screen, container, false);
-        return rootview;
+        view = inflater.inflate(R.layout.lends_screen, container, false);
+        return view;
     }
 }

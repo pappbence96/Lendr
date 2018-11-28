@@ -1,6 +1,10 @@
 package pappbence.bme.hu.lendr.data;
 
 import com.orm.SugarRecord;
+import com.orm.query.Condition;
+import com.orm.query.Select;
+
+import java.util.List;
 
 public class Category extends SugarRecord<Category> implements Comparable<Category>{
     public String Name;
@@ -22,5 +26,11 @@ public class Category extends SugarRecord<Category> implements Comparable<Catego
     @Override
     public int compareTo(Category o) {
         return this.Name.compareTo(o.Name);
+    }
+
+    public List<LendrItem> getItems(){
+        return Select.from(LendrItem.class)
+                .where(Condition.prop("category").eq(this.getId()))
+                .list();
     }
 }
