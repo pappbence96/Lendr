@@ -28,4 +28,14 @@ public class BitmapUtil {
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
+
+    public static Bitmap ByteArrayToBitmap(byte[] byteArray){
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+    }
+
+    public static byte[] BitmapToByteArray(Bitmap bitmap){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
 }

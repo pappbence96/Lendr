@@ -2,46 +2,37 @@ package pappbence.bme.hu.lendr;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mindorks.paracamera.Camera;
+import com.vansuita.pickimage.bean.PickResult;
+import com.vansuita.pickimage.bundle.PickSetup;
+import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickResult;
 
-import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
 import pappbence.bme.hu.lendr.data.LendrItem;
+import pappbence.bme.hu.lendr.fragments.ImagePreviewFragment;
 
 public class ItemDetailsActivity extends AppCompatActivity {
 
     final static int REQUEST_IMAGE_CAPTURE = 1;
     LendrItem item;
     LinearLayout imageBar;
-    Camera camera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_details);
-
-        camera = new Camera.Builder()
-                .resetToCorrectOrientation(true)// it will rotate the camera bitmap to the correct orientation from meta data
-                .setTakePhotoRequestCode(1)
-                .setDirectory("pics")
-                .setName("ali_" + System.currentTimeMillis())
-                .setImageFormat(Camera.IMAGE_JPEG)
-                .setCompression(75)
-                .setImageHeight(800)// it will try to achieve this height as close as possible maintaining the aspect ratio;
-                .build(this);
 
         imageBar = findViewById(R.id.ImageBar);
 
@@ -88,45 +79,38 @@ public class ItemDetailsActivity extends AppCompatActivity {
     }
 
     private void takeItemPhoto() {
-        /*
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }*/
-        try {
-            camera.takePicture();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        PickImageDialog.build(new PickSetup().setMaxSize(800))
+                .setOnPickResult(new IPickResult() {
+                    @Override
+                    public void onPickResult(PickResult r) {
+                        addImageToBar(r.getBitmap());
+                    }
+                })
+                .show(getSupportFragmentManager());
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        /*if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            Log.d("imagedbg", "W: " + String.valueOf(imageBitmap.getWidth()));
-            Log.d("imagedbg", "H: " + String.valueOf(imageBitmap.getHeight()));*/
-
-        Bitmap imageBitmap = null;
-
-        if(requestCode == Camera.REQUEST_TAKE_PHOTO){
-            imageBitmap = camera.getCameraBitmap();
-        }
-
-        if(imageBitmap == null){
-            Toast.makeText(this.getApplicationContext(),"Picture not taken!",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Log.d("imagedbg", String.valueOf(imageBitmap.toString()));
+    public void addImageToBar(final Bitmap imageBitmap){
+        Log.d("imagedbg", "W: " + imageBitmap.getWidth() + " H: " + imageBitmap.getHeight());
         ImageView imageView = new ImageView(
                 this);
         imageView.setImageBitmap(imageBitmap);
         ViewGroup.MarginLayoutParams imageViewParams = new ViewGroup.MarginLayoutParams(
                 ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                 ViewGroup.MarginLayoutParams.MATCH_PARENT);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setPadding(4, 4, 4,  4);
         imageView.setLayoutParams(imageViewParams);
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ImagePreviewFragment f = new ImagePreviewFragment();
+                Bundle args = new Bundle();
+                args.putByteArray("bytearray", BitmapUtil.BitmapToByteArray(imageBitmap));
+                f.setArguments(args);
+                f.show(getSupportFragmentManager(), ImagePreviewFragment.TAG);
+                return true;
+            }
+        });
 
         //TODO: Save image to DB
 
