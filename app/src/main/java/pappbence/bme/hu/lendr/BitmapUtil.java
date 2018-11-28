@@ -1,4 +1,4 @@
-package pappbence.bme.hu.lendr.adapter;
+package pappbence.bme.hu.lendr;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

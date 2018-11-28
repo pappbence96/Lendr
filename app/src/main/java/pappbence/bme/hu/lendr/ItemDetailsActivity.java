@@ -2,25 +2,48 @@ package pappbence.bme.hu.lendr;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.mindorks.paracamera.Camera;
 
 import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
 import pappbence.bme.hu.lendr.data.LendrItem;
 
 public class ItemDetailsActivity extends AppCompatActivity {
 
+    final static int REQUEST_IMAGE_CAPTURE = 1;
     LendrItem item;
-    LendrItemAdapter adapter;
+    LinearLayout imageBar;
+    Camera camera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_details);
+
+        camera = new Camera.Builder()
+                .resetToCorrectOrientation(true)// it will rotate the camera bitmap to the correct orientation from meta data
+                .setTakePhotoRequestCode(1)
+                .setDirectory("pics")
+                .setName("ali_" + System.currentTimeMillis())
+                .setImageFormat(Camera.IMAGE_JPEG)
+                .setCompression(75)
+                .setImageHeight(800)// it will try to achieve this height as close as possible maintaining the aspect ratio;
+                .build(this);
+
+        imageBar = findViewById(R.id.ImageBar);
 
         long itemId = getIntent().getLongExtra("ItemId", 0);
         item = LendrItem.findById(LendrItem.class, itemId);
@@ -50,7 +73,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add_image) {
-
+            takeItemPhoto();
             return true;
         }
         if(id == R.id.action_edit_item){
@@ -62,6 +85,52 @@ public class ItemDetailsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void takeItemPhoto() {
+        /*
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }*/
+        try {
+            camera.takePicture();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /*if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            Log.d("imagedbg", "W: " + String.valueOf(imageBitmap.getWidth()));
+            Log.d("imagedbg", "H: " + String.valueOf(imageBitmap.getHeight()));*/
+
+        Bitmap imageBitmap = null;
+
+        if(requestCode == Camera.REQUEST_TAKE_PHOTO){
+            imageBitmap = camera.getCameraBitmap();
+        }
+
+        if(imageBitmap == null){
+            Toast.makeText(this.getApplicationContext(),"Picture not taken!",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Log.d("imagedbg", String.valueOf(imageBitmap.toString()));
+        ImageView imageView = new ImageView(
+                this);
+        imageView.setImageBitmap(imageBitmap);
+        ViewGroup.MarginLayoutParams imageViewParams = new ViewGroup.MarginLayoutParams(
+                ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                ViewGroup.MarginLayoutParams.MATCH_PARENT);
+        imageView.setPadding(4, 4, 4,  4);
+        imageView.setLayoutParams(imageViewParams);
+
+        //TODO: Save image to DB
+
+        imageBar.addView(imageView);
     }
 
     public void promptDeleteItem(){

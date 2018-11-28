@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import com.orm.SugarRecord;
 
-import pappbence.bme.hu.lendr.adapter.BitmapUtil;
+import pappbence.bme.hu.lendr.BitmapUtil;
 
 public class ItemImage extends SugarRecord<ItemImage>{
     public LendrItem Item;
