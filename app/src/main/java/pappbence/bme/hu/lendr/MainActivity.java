@@ -155,8 +155,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
     @Override
     public void onCategoryCreated(Category newCategory) {
-        newCategory.save();
-        categoryAdapter.addCategory(newCategory);
+        categoryAdapter.addOrSaveCategory(newCategory);
     }
 
 }

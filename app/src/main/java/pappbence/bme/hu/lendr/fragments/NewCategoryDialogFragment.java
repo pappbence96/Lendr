@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -45,11 +46,16 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
         }
 
         Bundle args = getArguments();
-        long categoryId = args.getLong("categoryId", -1);
-        if(categoryId == -1 ){
+        if(args == null){
             startCategory = null;
-        } else{
-            startCategory = Category.findById(Category.class, categoryId);
+        }
+        else{
+            long categoryId = args.getLong("categoryId", -1);
+            if(categoryId == -1 ){
+                startCategory = null;
+            } else{
+                startCategory = Category.findById(Category.class, categoryId);
+            }
         }
     }
 
@@ -63,12 +69,19 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(requireContext())
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
                 .setTitle("Add new Category")
                 .setView(getContentView())
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", null)
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button okButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                okButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(View view) {
                         if(!isValid()){
                             nameEditText.setError("Name can't be empty");
                         } else {
@@ -76,9 +89,10 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
                             dismiss();
                         }
                     }
-                })
-                .setNegativeButton("Cancel", null)
-                .create();
+                });
+            }
+        });
+        return dialog;
     }
 
     private Category getCategory(){
@@ -108,13 +122,6 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
                 android.R.layout.simple_spinner_dropdown_item, Category.listAll(Category.class)));
         if(startCategory != null){
             nameEditText.setText(startCategory.Name);
-            if(startCategory.ParentCategory != null){
-                setParentCheckBox.setChecked(true);
-                int pos;
-                for(pos = 0; pos < categorySpinner.getCount() && ((Category)categorySpinner.getItemAtPosition(pos)).Name != startCategory.ParentCategory.Name; pos++){
-                }
-                categorySpinner.setSelection(pos);
-            }
         }
         return contentView;
     }

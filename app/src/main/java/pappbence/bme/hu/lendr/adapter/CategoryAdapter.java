@@ -21,7 +21,6 @@ import pappbence.bme.hu.lendr.MainActivity;
 import pappbence.bme.hu.lendr.R;
 import pappbence.bme.hu.lendr.data.Category;
 import pappbence.bme.hu.lendr.data.LendrItem;
-import pappbence.bme.hu.lendr.fragments.ChangeCategoryDialogFragment;
 import pappbence.bme.hu.lendr.fragments.NewCategoryDialogFragment;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>  {
@@ -29,6 +28,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private final List<Category> categories;
     private MainActivity activity;
     private FragmentManager fragmentManager;
+    private Category editedCategory = null;
 
     public CategoryAdapter() {
         categories = new ArrayList<>();
@@ -62,9 +62,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return categories.size();
     }
 
-    public void addCategory(Category category) {
-        categories.add(category);
-        notifyItemInserted(categories.size() - 1);
+    public void addOrSaveCategory(Category category) {
+        if(editedCategory == null){
+            category.save();
+            categories.add(category);
+            notifyItemInserted(categories.size() - 1);
+            return;
+        }
+        editedCategory.Name = category.Name;
+        editedCategory.ParentCategory = category.ParentCategory;
+        editedCategory.save();
+        notifyDataSetChanged();
     }
 
     public void update(List<Category> categories) {
@@ -114,7 +122,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    public class CategoryViewHolder extends RecyclerView.ViewHolder implements ChangeCategoryDialogFragment.ChangeCategoryDialogListener {
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public class CategoryViewHolder extends RecyclerView.ViewHolder{
         TextView nameTextView;
         TextView parentTextView;
         TextView itemCountTextView;
@@ -138,9 +150,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()){
-                                case R.id.action_category_rename:
-                                    break;
                                 case R.id.action_parent_change:
+                                    editedCategory = category;
                                     Bundle args = new Bundle();
                                     args.putLong("categoryId", category.getId());
                                     NewCategoryDialogFragment f = new NewCategoryDialogFragment();
@@ -159,11 +170,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             });
 
 
-        }
-
-        @Override
-        public void onCategoryChanged(Category newParent) {
-            category.ParentCategory = newParent;
         }
     }
 }
