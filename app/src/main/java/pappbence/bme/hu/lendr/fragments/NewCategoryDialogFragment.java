@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -42,6 +44,13 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
         }
     }
 
+    private Boolean isValid(){
+        if(TextUtils.isEmpty(nameEditText.getText())){
+            return false;
+        }
+        return true;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -51,7 +60,12 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.onCategoryCreated(getCategory());
+                        if(!isValid()){
+                            nameEditText.setError("Name can't be empty");
+                        } else {
+                            listener.onCategoryCreated(getCategory());
+                            dismiss();
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", null)
@@ -66,12 +80,17 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
     }
 
     private View getContentView() {
-        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_new_category, null);
+        final View contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_new_category, null);
         nameEditText = contentView.findViewById(R.id.CategoryNameEditText);
         setParentCheckBox = contentView.findViewById(R.id.setParentCb);
         setParentCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked && Category.listAll(Category.class).size() == 0){
+                    Snackbar.make(contentView, "Can't add Parent because there are no categories.", Snackbar.LENGTH_LONG).show();
+                    setParentCheckBox.setChecked(false);
+                    return;
+                }
                 categorySpinner.setEnabled(isChecked);
             }
         });

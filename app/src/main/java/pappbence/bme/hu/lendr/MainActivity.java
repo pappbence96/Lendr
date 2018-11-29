@@ -93,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         itemAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(Category.listAll(Category.class).size() == 0){
+                    Snackbar.make(findViewById(android.R.id.content), "There are no categories so you can't add new items.", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 new NewItemDialogFragment().show(getSupportFragmentManager(), NewItemDialogFragment.TAG);
             }
         });

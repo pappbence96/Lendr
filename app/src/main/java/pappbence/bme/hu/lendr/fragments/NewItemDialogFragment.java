@@ -7,13 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 import fr.tvbarthel.lib.blurdialogfragment.SupportBlurDialogFragment;
 import pappbence.bme.hu.lendr.R;
 import pappbence.bme.hu.lendr.data.Category;
@@ -42,20 +43,40 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
         }
     }
 
+    private Boolean isValid(){
+        if(TextUtils.isEmpty(nameEditText.getText())){
+            return false;
+        }
+        return true;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(requireContext())
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
                 .setTitle("Add new Item")
                 .setView(getContentView())
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.onItemCreated(getItem());
-                    }
-                })
+                .setPositiveButton("Ok", null)
                 .setNegativeButton("Cancel", null)
                 .create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                Button okButton = ((AlertDialog)dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(!isValid()){
+                            nameEditText.setError("Name can't be empty");
+                        } else {
+                            listener.onItemCreated(getItem());
+                            dismiss();
+                        }
+                    }
+                });
+            }
+        });
+        return dialog;
     }
 
     private LendrItem getItem(){

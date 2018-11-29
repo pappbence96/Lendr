@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set parent category:"
-        android:checked="true"/>
+        android:checked="false"/>
 
     <Spinner
         android:id="@+id/ParentCategorySpinner"
