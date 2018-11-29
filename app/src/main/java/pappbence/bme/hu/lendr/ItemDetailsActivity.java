@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
@@ -25,7 +27,6 @@ import pappbence.bme.hu.lendr.fragments.ImagePreviewFragment;
 
 public class ItemDetailsActivity extends AppCompatActivity {
 
-    final static int REQUEST_IMAGE_CAPTURE = 1;
     LendrItem item;
     LinearLayout imageBar;
 
@@ -79,7 +80,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
     }
 
     private void takeItemPhoto() {
-        PickImageDialog.build(new PickSetup().setMaxSize(800))
+        PickImageDialog.build(new PickSetup().setMaxSize(500)
+                .setButtonOrientation(LinearLayoutCompat.HORIZONTAL))
                 .setOnPickResult(new IPickResult() {
                     @Override
                     public void onPickResult(PickResult r) {
@@ -95,10 +97,9 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 this);
         imageView.setImageBitmap(imageBitmap);
         ViewGroup.MarginLayoutParams imageViewParams = new ViewGroup.MarginLayoutParams(
-                ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-                ViewGroup.MarginLayoutParams.MATCH_PARENT);
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageView.setPadding(4, 4, 4,  4);
+            imageBitmap.getWidth() * imageBar.getHeight() / imageBitmap.getHeight(),
+            imageBar.getHeight());
+        imageView.setPadding(4, 4, 4, 4);
         imageView.setLayoutParams(imageViewParams);
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

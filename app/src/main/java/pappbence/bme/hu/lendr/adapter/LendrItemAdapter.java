@@ -22,7 +22,6 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
 
     private final List<LendrItem> items;
     private ItemFilter filter;
-    private MainActivity mainActivity;
 
     private View.OnClickListener onItemClickListener;
 
