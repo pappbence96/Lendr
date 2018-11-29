@@ -26,6 +26,7 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
     private EditText nameEditText;
     private CheckBox setParentCheckBox;
     private Spinner categorySpinner;
+    private Category startCategory;
 
     public interface NewCategoryDialogListener {
         void onCategoryCreated(Category newCategory);
@@ -41,6 +42,14 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
             listener = (NewCategoryDialogListener) activity;
         } else {
             throw new RuntimeException("Activity must implement the NewShoppingItemDialogListener interface!");
+        }
+
+        Bundle args = getArguments();
+        long categoryId = args.getLong("categoryId", -1);
+        if(categoryId == -1 ){
+            startCategory = null;
+        } else{
+            startCategory = Category.findById(Category.class, categoryId);
         }
     }
 
@@ -97,6 +106,16 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
         categorySpinner = contentView.findViewById(R.id.ParentCategorySpinner);
         categorySpinner.setAdapter(new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_dropdown_item, Category.listAll(Category.class)));
+        if(startCategory != null){
+            nameEditText.setText(startCategory.Name);
+            if(startCategory.ParentCategory != null){
+                setParentCheckBox.setChecked(true);
+                int pos;
+                for(pos = 0; pos < categorySpinner.getCount() && ((Category)categorySpinner.getItemAtPosition(pos)).Name != startCategory.ParentCategory.Name; pos++){
+                }
+                categorySpinner.setSelection(pos);
+            }
+        }
         return contentView;
     }
 

@@ -2,7 +2,9 @@ package pappbence.bme.hu.lendr.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,15 +21,21 @@ import pappbence.bme.hu.lendr.MainActivity;
 import pappbence.bme.hu.lendr.R;
 import pappbence.bme.hu.lendr.data.Category;
 import pappbence.bme.hu.lendr.data.LendrItem;
+import pappbence.bme.hu.lendr.fragments.ChangeCategoryDialogFragment;
+import pappbence.bme.hu.lendr.fragments.NewCategoryDialogFragment;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>  {
 
     private final List<Category> categories;
     private MainActivity activity;
-
+    private FragmentManager fragmentManager;
 
     public CategoryAdapter() {
         categories = new ArrayList<>();
+    }
+
+    public void setFragmentManager(FragmentManager fragmentManager){
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -106,8 +114,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-
-    public class CategoryViewHolder extends RecyclerView.ViewHolder{
+    public class CategoryViewHolder extends RecyclerView.ViewHolder implements ChangeCategoryDialogFragment.ChangeCategoryDialogListener {
         TextView nameTextView;
         TextView parentTextView;
         TextView itemCountTextView;
@@ -134,6 +141,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                                 case R.id.action_category_rename:
                                     break;
                                 case R.id.action_parent_change:
+                                    Bundle args = new Bundle();
+                                    args.putLong("categoryId", category.getId());
+                                    NewCategoryDialogFragment f = new NewCategoryDialogFragment();
+                                    f.setArguments(args);
+                                    f.show(fragmentManager, NewCategoryDialogFragment.TAG);
                                     break;
                                 case R.id.action_category_delete:
                                     promptDeleteCategory(category);
@@ -146,6 +158,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 }
             });
 
+
+        }
+
+        @Override
+        public void onCategoryChanged(Category newParent) {
+            category.ParentCategory = newParent;
         }
     }
 }
