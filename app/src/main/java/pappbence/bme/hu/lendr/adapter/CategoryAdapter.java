@@ -150,7 +150,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()){
-                                case R.id.action_parent_change:
+                                case R.id.action_edit_category:
                                     editedCategory = category;
                                     Bundle args = new Bundle();
                                     args.putLong("categoryId", category.getId());

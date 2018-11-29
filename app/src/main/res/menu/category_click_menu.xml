@@ -2,12 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_category_rename"
-        android:title="Rename"/>
-
-    <item
-        android:id="@+id/action_parent_change"
-        android:title="Change parent"/>
+        android:id="@+id/action_edit_category"
+        android:title="Edit"/>
 
     <item
         android:id="@+id/action_category_delete"

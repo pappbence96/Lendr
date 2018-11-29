@@ -25,6 +25,7 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
     private EditText nameEditText;
     private EditText descriptionEditText;
     private Spinner categorySpinner;
+    private LendrItem startItem;
 
     public interface NewItemDialogListener {
         void onItemCreated(LendrItem newItem);
@@ -40,6 +41,19 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
             listener = (NewItemDialogListener) activity;
         } else {
             throw new RuntimeException("Activity must implement the NewShoppingItemDialogListener interface!");
+        }
+
+        Bundle args = getArguments();
+        if(args == null){
+            startItem = null;
+        }
+        else{
+            long itemId = args.getLong("itemId", -1);
+            if(itemId == -1 ){
+                startItem = null;
+            } else{
+                startItem = LendrItem.findById(LendrItem.class, itemId);
+            }
         }
     }
 
@@ -94,6 +108,10 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
         categorySpinner = contentView.findViewById(R.id.ItemCategorySpinner);
         categorySpinner.setAdapter(new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_dropdown_item, Category.listAll(Category.class)));
+        if(startItem != null){
+            nameEditText.setText(startItem.Name);
+            descriptionEditText.setText(startItem.Description);
+        }
         return contentView;
     }
 

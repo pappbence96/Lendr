@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
@@ -69,6 +70,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
             return true;
         }
         if(id == R.id.action_edit_item){
+            Snackbar.make(findViewById(android.R.id.content), "Items can not be edited. Delete it and record it again.", Snackbar.LENGTH_LONG).show();
             return true;
         }
         if(id == R.id.action_delete_item){
