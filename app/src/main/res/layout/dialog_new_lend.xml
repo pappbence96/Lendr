@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="24dip">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item to lend"/>
+
+    <Spinner
+        android:id="@+id/LendrItemSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_marginTop="16dp"
+        android:id="@+id/LendeeNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Lendee name"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelText="Item name"
+        />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_marginTop="16dp"
+        android:id="@+id/StartDateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_marginTop="16dp"
+        android:id="@+id/EndDateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        />
+
+
+</LinearLayout>

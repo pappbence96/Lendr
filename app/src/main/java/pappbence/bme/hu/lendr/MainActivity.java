@@ -30,8 +30,9 @@ import pappbence.bme.hu.lendr.fragments.LendsFragment;
 import pappbence.bme.hu.lendr.fragments.MenuPagerAdapter;
 import pappbence.bme.hu.lendr.fragments.NewCategoryDialogFragment;
 import pappbence.bme.hu.lendr.fragments.NewItemDialogFragment;
+import pappbence.bme.hu.lendr.fragments.NewLendDialogFragment;
 
-public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NewItemDialogListener, NewCategoryDialogFragment.NewCategoryDialogListener{
+public class MainActivity extends AppCompatActivity implements NewItemDialogFragment.NewItemDialogListener, NewCategoryDialogFragment.NewCategoryDialogListener, NewLendDialogFragment.NewLendDialogListener {
 
     public LendrItemAdapter itemAdapter;
     public CategoryAdapter categoryAdapter;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         lendAddBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Snackbar.make(findViewById(android.R.id.content), "Adding lend intervals is not yet supported", Snackbar.LENGTH_LONG).show();
+                new NewLendDialogFragment().show(getSupportFragmentManager(), NewLendDialogFragment.TAG);
             }
         });
     }
@@ -176,4 +177,8 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         categoryAdapter.addOrSaveCategory(newCategory);
     }
 
+    @Override
+    public void onLendCreated(Lend newLend) {
+        lendAdapter.addLend(newLend);
+    }
 }

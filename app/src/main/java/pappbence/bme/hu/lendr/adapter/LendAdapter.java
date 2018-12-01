@@ -26,7 +26,7 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
 
     public LendAdapter(){
         lends = new ArrayList<>();
-        dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+        dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
     }
 
     @NonNull
@@ -65,6 +65,10 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
         this.activity = activity;
     }
 
+    public void addLend(Lend newLend) {
+        lends.add(newLend);
+        notifyDataSetChanged();
+    }
 
 
     public class LendViewHolder extends RecyclerView.ViewHolder{

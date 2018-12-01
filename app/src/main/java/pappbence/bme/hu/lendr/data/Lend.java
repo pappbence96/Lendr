@@ -9,5 +9,5 @@ public class Lend extends SugarRecord<Lend> {
     public String Lendee;
     public Date StartDate;
     public Date EndDate;
-    public Boolean Closed;
+    public Boolean Closed = false;
 }

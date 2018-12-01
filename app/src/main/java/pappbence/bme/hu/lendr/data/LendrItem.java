@@ -21,6 +21,11 @@ public class LendrItem extends SugarRecord<LendrItem> implements Comparable<Lend
     }
 
     @Override
+    public String toString() {
+        return Name;
+    }
+
+    @Override
     public int compareTo(LendrItem o) {
         return this.Name.compareTo(o.Name);
     }
