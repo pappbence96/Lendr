@@ -105,6 +105,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
     private void takeItemPhoto() {
         if(item.getImages().size() >= 4){
             Snackbar.make(findViewById(android.R.id.content), "An item can only store 4 photos.", Snackbar.LENGTH_LONG).show();
+            return;
         }
         PickImageDialog.build(new PickSetup().setMaxSize(400)
                 .setButtonOrientation(LinearLayoutCompat.HORIZONTAL))
