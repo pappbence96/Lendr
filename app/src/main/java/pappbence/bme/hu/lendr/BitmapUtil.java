@@ -3,6 +3,7 @@ package pappbence.bme.hu.lendr;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 
@@ -16,6 +17,7 @@ public class BitmapUtil {
                     encodeByte.length);
             return bitmap;
         } catch (Exception e) {
+            Log.d("imagedbg", "Failed to decode image");
             e.getMessage();
             return null;
         }

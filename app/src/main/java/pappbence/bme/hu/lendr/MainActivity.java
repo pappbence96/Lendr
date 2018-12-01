@@ -18,6 +18,7 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import pappbence.bme.hu.lendr.adapter.CategoryAdapter;
 import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
 import pappbence.bme.hu.lendr.data.Category;
+import pappbence.bme.hu.lendr.data.ItemImage;
 import pappbence.bme.hu.lendr.data.LendrItem;
 import pappbence.bme.hu.lendr.fragments.CategoriesFragment;
 import pappbence.bme.hu.lendr.fragments.ItemsFragment;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
     private void InitTestData() {
         Category.deleteAll(Category.class);
         LendrItem.deleteAll(LendrItem.class);
+        ItemImage.deleteAll(ItemImage.class);
+
 
         Category cat1 = new Category("Butor", null);
         cat1.save();

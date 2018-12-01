@@ -16,13 +16,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
 
+import java.util.List;
+
+import pappbence.bme.hu.lendr.data.ItemImage;
 import pappbence.bme.hu.lendr.data.LendrItem;
 import pappbence.bme.hu.lendr.fragments.ImagePreviewFragment;
 
@@ -48,6 +50,20 @@ public class ItemDetailsActivity extends AppCompatActivity {
         name.setText(item.Name);
         desc.setText(item.Description);
         category.setText(item.Category.Name);
+
+        List<ItemImage> itemImages = item.getImages();
+        for(ItemImage ii : itemImages){
+            final Bitmap bmp = ii.getImage();
+            Log.d("imagedbg", "W: " + bmp.getWidth() + " H: " + bmp.getHeight());
+            addImageToBar(bmp);
+        }
+        imageBar.invalidate();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -87,20 +103,30 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 .setOnPickResult(new IPickResult() {
                     @Override
                     public void onPickResult(PickResult r) {
-                        addImageToBar(r.getBitmap());
+                        recordTakenImage(r.getBitmap());
                     }
                 })
                 .show(getSupportFragmentManager());
     }
 
-    public void addImageToBar(final Bitmap imageBitmap){
+    public void recordTakenImage(final Bitmap imageBitmap){
+        ItemImage persistentImage = new ItemImage();
+        persistentImage.Item = item;
+        persistentImage.setImage(imageBitmap);
+        persistentImage.save();
+
         Log.d("imagedbg", "W: " + imageBitmap.getWidth() + " H: " + imageBitmap.getHeight());
+        addImageToBar(imageBitmap);
+
+    }
+
+    public void addImageToBar(final Bitmap imageBitmap){
         ImageView imageView = new ImageView(
                 this);
         imageView.setImageBitmap(imageBitmap);
         ViewGroup.MarginLayoutParams imageViewParams = new ViewGroup.MarginLayoutParams(
-            imageBitmap.getWidth() * imageBar.getHeight() / imageBitmap.getHeight(),
-            imageBar.getHeight());
+                imageBitmap.getWidth() * imageBar.getHeight() / imageBitmap.getHeight(),
+                imageBar.getHeight());
         imageView.setPadding(4, 4, 4, 4);
         imageView.setLayoutParams(imageViewParams);
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -114,9 +140,6 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-        //TODO: Save image to DB
-
         imageBar.addView(imageView);
     }
 
