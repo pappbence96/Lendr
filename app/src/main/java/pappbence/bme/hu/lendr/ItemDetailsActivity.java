@@ -55,7 +55,12 @@ public class ItemDetailsActivity extends AppCompatActivity {
         for(ItemImage ii : itemImages){
             final Bitmap bmp = ii.getImage();
             Log.d("imagedbg", "W: " + bmp.getWidth() + " H: " + bmp.getHeight());
-            addImageToBar(bmp);
+            imageBar.post(new Runnable() {
+                @Override
+                public void run() {
+                    addImageToBar(bmp);
+                }
+            });
         }
         imageBar.invalidate();
 
@@ -98,7 +103,10 @@ public class ItemDetailsActivity extends AppCompatActivity {
     }
 
     private void takeItemPhoto() {
-        PickImageDialog.build(new PickSetup().setMaxSize(500)
+        if(item.getImages().size() >= 4){
+            Snackbar.make(findViewById(android.R.id.content), "An item can only store 4 photos.", Snackbar.LENGTH_LONG).show();
+        }
+        PickImageDialog.build(new PickSetup().setMaxSize(400)
                 .setButtonOrientation(LinearLayoutCompat.HORIZONTAL))
                 .setOnPickResult(new IPickResult() {
                     @Override
