@@ -39,4 +39,10 @@ public class Category extends SugarRecord<Category> implements Comparable<Catego
                 .where(Condition.prop("parent_category").eq(this.getId()))
                 .list();
     }
+
+    public static List<Category> findByName(String name){
+        return Select.from(Category.class)
+                .where(Condition.prop("name").eq(name))
+                .list();
+    }
 }

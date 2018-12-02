@@ -61,6 +61,11 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
 
     private Boolean isValid(){
         if(TextUtils.isEmpty(nameEditText.getText())){
+            nameEditText.setError("Name can't be empty");
+            return false;
+        }
+        if(Category.findByName(nameEditText.getText().toString()).size() != 0){
+            nameEditText.setError("A category with the same name already exists.");
             return false;
         }
         return true;
@@ -82,9 +87,7 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
                 okButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(!isValid()){
-                            nameEditText.setError("Name can't be empty");
-                        } else {
+                        if(isValid()){
                             listener.onCategoryCreated(getCategory());
                             dismiss();
                         }

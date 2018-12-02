@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -51,11 +52,10 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment {
     }
 
     private Boolean isValid(){
-        //TODO: Implement
-        /*
-        if(TextUtils.isEmpty(nameEditText.getText())){
+        if(TextUtils.isEmpty(lendeeEditText.getText())){
+            lendeeEditText.setError("Lendee name cannot be empty");
             return false;
-        }*/
+        }
         return true;
     }
 
@@ -75,9 +75,7 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment {
                 okButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(!isValid()){
-                            //Todo: implement
-                        } else {
+                        if(isValid()){
                             listener.onLendCreated(getLend());
                             dismiss();
                         }
