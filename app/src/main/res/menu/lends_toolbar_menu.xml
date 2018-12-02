@@ -24,4 +24,11 @@
         </menu>
 
     </item>
+
+    <item
+        android:id="@+id/action_delete_closed"
+        android:orderInCategory="2"
+        android:title="Delete closed lends"
+        app:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_delete"/>
 </menu>

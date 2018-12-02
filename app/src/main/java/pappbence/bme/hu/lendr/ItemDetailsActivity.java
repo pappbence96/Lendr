@@ -178,22 +178,22 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
     public void promptDeleteItem(){
         new AlertDialog.Builder(this)
                 .setTitle("Delete lendrItem")
-                .setMessage("Do you really want to delete this lendrItem?")
+                .setMessage("Do you really want to delete this item?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        promtDeleteItem();
+                        promtDeleteItemLends();
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    public void promtDeleteItem(){
+    public void promtDeleteItemLends(){
         List<Lend> lends = lendrItem.getLends();
         if(lends.size() > 0){
             new AlertDialog.Builder(this)
-                    .setTitle("Delete lendrItem")
-                    .setMessage("Lends on this lendrItem will also be deleted. Do you want to continue?")
+                    .setTitle("Delete item")
+                    .setMessage("Lends on this item will also be deleted. Do you want to continue?")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

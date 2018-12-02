@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -142,7 +141,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         TextView nameTextView;
         TextView parentTextView;
         TextView itemCountTextView;
-        ImageButton moreButton;
 
         Category category;
 
@@ -152,11 +150,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             nameTextView = categoryView.findViewById(R.id.CategoryNameTextView);
             parentTextView = categoryView.findViewById(R.id.ParentCategoryTextView);
             itemCountTextView = categoryView.findViewById(R.id.ItemCountTextView);
-            moreButton = categoryView.findViewById(R.id.MoreButton);
-            moreButton.setOnClickListener(new View.OnClickListener() {
+            categoryView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View v) {
-                    PopupMenu popupMenu = new PopupMenu(activity, moreButton);
+                public boolean onLongClick(View v) {
+                    PopupMenu popupMenu = new PopupMenu(activity, categoryView);
                     popupMenu.getMenuInflater().inflate(R.menu.category_click_menu, popupMenu.getMenu());
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
@@ -178,6 +175,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                         }
                     });
                     popupMenu.show();
+                    return true;
                 }
             });
 

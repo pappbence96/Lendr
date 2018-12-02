@@ -1,5 +1,7 @@
 package pappbence.bme.hu.lendr.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -68,6 +70,18 @@ public class LendsFragment extends Fragment {
             case R.id.action_sort_end:
                 adapter.sortByEndDate();
                 break;
+            case R.id.action_delete_closed:
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Delete closed lends")
+                        .setMessage("Do you really want to delete all closed lends?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                adapter.deleteClosedLends();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -78,6 +92,7 @@ public class LendsFragment extends Fragment {
         adapter = new LendAdapter();
         adapter.update(Lend.listAll(Lend.class));
 
+        adapter.setActivity(mainActivity);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
         mainActivity.lendAdapter = this.adapter;

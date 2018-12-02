@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="listTop">#ffffff</color>
-    <color  name="listBottom">#d7e3d9</color>
+    <color name="listBottom">#d7e3d9</color>
+    <color name="listBottomClosed">#e1c3c3</color>
 </resources>

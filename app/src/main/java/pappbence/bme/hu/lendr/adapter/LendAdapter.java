@@ -1,13 +1,15 @@
 package pappbence.bme.hu.lendr.adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -24,7 +26,6 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
 
     private final List<Lend> lends;
     private MainActivity activity;
-    private FragmentManager fragmentManager;
     DateFormat dateFormat;
 
     public LendAdapter(){
@@ -48,15 +49,9 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
         lendViewHolder.lendeeTextView.setText(lend.Lendee);
         lendViewHolder.startDateTextView.setText(dateFormat.format(lend.StartDate));
         lendViewHolder.endDateTextView.setText(dateFormat.format(lend.EndDate));
-        lendViewHolder.closedTextBox.setChecked(lend.Closed);
-        lendViewHolder.closedTextBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                lendViewHolder.lend.Closed = isChecked;
-                lendViewHolder.lend.save();
-            }
-        });
+        lendViewHolder.closedCheckBox.setChecked(lend.Closed);
         lendViewHolder.lend = lend;
+        lendViewHolder.itemView.setBackgroundResource(lend.Closed ? R.drawable.list_bg_closed : R.drawable.list_bg);
     }
 
     public void update(List<Lend> lends) {
@@ -77,6 +72,7 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
 
     public void addLend(Lend newLend) {
         lends.add(newLend);
+        newLend.save();
         notifyDataSetChanged();
     }
 
@@ -131,24 +127,85 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
         notifyDataSetChanged();
     }
 
+    public void deleteClosedLends() {
+        for(Lend l : Lend.findByClosed(true)){
+            for(int i = 0; i < lends.size(); i++){
+                if(l.getId() == lends.get(i).getId()){
+                    lends.remove(i);
+                    l.delete();
+                    continue;
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void promptDeleteLend(final Lend lend){
+        new AlertDialog.Builder(activity)
+                .setTitle("Delete lend")
+                .setMessage("Do you really want to delete this lend?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        deleteLend(lend);
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    private void deleteLend(Lend lend) {
+        lends.remove(lend);
+        lend.delete();
+        notifyDataSetChanged();
+    }
+
     public class LendViewHolder extends RecyclerView.ViewHolder{
 
         TextView itemTextView;
         TextView lendeeTextView;
         TextView startDateTextView;
         TextView endDateTextView;
-        CheckBox closedTextBox;
+        CheckBox closedCheckBox;
 
         Lend lend;
 
-        public LendViewHolder(@NonNull final View categoryView) {
-            super(categoryView);
-            categoryView.setTag(this);
-            itemTextView = categoryView.findViewById(R.id.LendItem);
-            lendeeTextView = categoryView.findViewById(R.id.LendLendee);
-            startDateTextView = categoryView.findViewById(R.id.LendStartDate);
-            endDateTextView = categoryView.findViewById(R.id.LendEndDate);
-            closedTextBox = categoryView.findViewById(R.id.LendClosedCheckBox);
+        public LendViewHolder(@NonNull final View lendView) {
+            super(lendView);
+            lendView.setTag(this);
+            itemTextView = lendView.findViewById(R.id.LendItem);
+            lendeeTextView = lendView.findViewById(R.id.LendLendee);
+            startDateTextView = lendView.findViewById(R.id.LendStartDate);
+            endDateTextView = lendView.findViewById(R.id.LendEndDate);
+            closedCheckBox = lendView.findViewById(R.id.LendClosedCheckBox);
+            closedCheckBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lend.Closed = closedCheckBox.isChecked();
+                    lend.save();
+                    itemView.setBackgroundResource(lend.Closed ? R.drawable.list_bg_closed : R.drawable.list_bg);
+                    itemView.invalidate();
+                }
+            });
+            lendView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    PopupMenu popupMenu = new PopupMenu(activity, lendView);
+                    popupMenu.getMenuInflater().inflate(R.menu.lend_click_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()){
+                                case R.id.action_lend_delete:
+                                    promptDeleteLend(lend);
+                                    break;
+                            }
+                            return true;
+                        }
+                    });
+                    popupMenu.show();
+                    return true;
+                }
+            });
         }
     }
 }
