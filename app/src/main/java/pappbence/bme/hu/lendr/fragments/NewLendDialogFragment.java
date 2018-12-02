@@ -28,12 +28,14 @@ import pappbence.bme.hu.lendr.R;
 import pappbence.bme.hu.lendr.data.Lend;
 import pappbence.bme.hu.lendr.data.LendrItem;
 
-public class NewLendDialogFragment extends SupportBlurDialogFragment {
+public class NewLendDialogFragment extends SupportBlurDialogFragment{
     public static final String TAG = "NewLendDialogFragment";
     private Spinner itemSpinner;
     private EditText lendeeEditText;
     private EditText startDateEditText;
     private EditText endDateEditText;
+    private LendrItem startItem;
+
 
     public interface NewLendDialogListener {
         void onLendCreated(Lend newLend);
@@ -50,11 +52,32 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment {
         } else {
             throw new RuntimeException("Activity must implement the NewShoppingItemDialogListener interface!");
         }
+
+        Bundle args = getArguments();
+        if(args == null){
+            startItem = null;
+        }
+        else{
+            long itemId = args.getLong("itemId", -1);
+            if(itemId == -1 ){
+                startItem = null;
+            } else{
+                startItem = LendrItem.findById(LendrItem.class, itemId);
+            }
+        }
     }
 
     private Boolean isValid(){
         if(TextUtils.isEmpty(lendeeEditText.getText())){
             lendeeEditText.setError("Lendee name cannot be empty");
+            return false;
+        }
+        if(TextUtils.isEmpty(startDateEditText.getText())){
+            lendeeEditText.setError("Starting date cannot be empty");
+            return false;
+        }
+        if(TextUtils.isEmpty(endDateEditText.getText())){
+            lendeeEditText.setError("End date cannot be empty");
             return false;
         }
         return true;
@@ -109,6 +132,16 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment {
         itemSpinner = contentView.findViewById(R.id.LendrItemSpinner);
         itemSpinner.setAdapter(new ArrayAdapter<>(requireContext(),
                 android.R.layout.simple_spinner_dropdown_item, LendrItem.listAll(LendrItem.class)));
+        if(startItem != null){
+            int pos;
+            for(pos = 0; pos < itemSpinner.getCount(); pos++){
+                LendrItem tmpItem = (LendrItem)itemSpinner.getItemAtPosition(pos);
+                if(tmpItem.Name.equals(startItem.Name)){
+                    itemSpinner.setSelection(pos);
+                    break;
+                }
+            }
+        }
         lendeeEditText = contentView.findViewById(R.id.LendeeNameEditText);
 
         startDateEditText = contentView.findViewById(R.id.StartDateEditText);
