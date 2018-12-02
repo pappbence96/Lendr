@@ -16,6 +16,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start date"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/StartDateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End date"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/EndDateEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        />
+
     <com.rengwuxian.materialedittext.MaterialEditText
         android:layout_marginTop="16dp"
         android:id="@+id/LendeeNameEditText"
@@ -25,22 +52,5 @@
         app:met_floatingLabel="highlight"
         app:met_floatingLabelText="Item name"
         />
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:layout_marginTop="16dp"
-        android:id="@+id/StartDateEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        />
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:layout_marginTop="16dp"
-        android:id="@+id/EndDateEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        />
-
 
 </LinearLayout>

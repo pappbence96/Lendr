@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -96,7 +97,8 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment {
             lend.StartDate = format.parse(startDateEditText.getText().toString());
             lend.EndDate = format.parse(endDateEditText.getText().toString());
         } catch(Exception e){
-            // TODO: 2018. 12. 01. : exception handling
+            Toast.makeText(getContext(), "An error occurred while parsing input data.", Toast.LENGTH_LONG).show();
+            return null;
         }
 
         return lend;

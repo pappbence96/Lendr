@@ -25,6 +25,7 @@ import com.vansuita.pickimage.listeners.IPickResult;
 import java.util.List;
 
 import pappbence.bme.hu.lendr.data.ItemImage;
+import pappbence.bme.hu.lendr.data.Lend;
 import pappbence.bme.hu.lendr.data.LendrItem;
 import pappbence.bme.hu.lendr.fragments.ImagePreviewFragment;
 
@@ -160,17 +161,38 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        deleteItem();
+                        promtDeleteItem();
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    public void deleteItem(){
+    public void promtDeleteItem(){
+        List<Lend> lends = item.getLends();
+        if(lends.size() > 0){
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete item")
+                    .setMessage("Lends on this item will also be deleted. Do you want to continue?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            deleteItem();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
+        } else {
+            deleteItem();
+        }
+    }
+
+    private void deleteItem(){
+        for(ItemImage ii : item.getImages()){
+            ii.delete();
+        }
+        for(Lend l : item.getLends()){
+            l.delete();
+        }
         String itemName = item.Name;
         item.delete();
-
-        //TODO: delete images belonging to this Item
-
         Toast.makeText(getApplicationContext(), String.format("%1$s deleted", itemName), Toast.LENGTH_LONG).show();
         this.finish();
     }

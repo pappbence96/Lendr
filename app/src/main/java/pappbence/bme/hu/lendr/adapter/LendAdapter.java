@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -88,6 +89,12 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
             startDateTextView = categoryView.findViewById(R.id.LendStartDate);
             endDateTextView = categoryView.findViewById(R.id.LendEndDate);
             closedTextBox = categoryView.findViewById(R.id.LendClosedCheckBox);
+            closedTextBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    lend.Closed = isChecked;
+                }
+            });
         }
     }
 }

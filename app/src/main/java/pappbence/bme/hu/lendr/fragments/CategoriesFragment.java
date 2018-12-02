@@ -37,6 +37,12 @@ public class CategoriesFragment extends Fragment {
         activity = (MainActivity) getActivity();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.update(Category.listAll(Category.class));
+    }
+
     private void initRecyclerView() {
         recyclerView = view.findViewById(R.id.CategoryRecyclerView);
 

@@ -56,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         InitTestData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void InitTestData() {
         Category.deleteAll(Category.class);
         LendrItem.deleteAll(LendrItem.class);
@@ -147,21 +152,6 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        if(id == R.id.action_sort_name){
-            itemAdapter.SortByItemName();
-            return true;
-        }
-        if(id == R.id.action_sort_category){
-            itemAdapter.SortByCategoryName();
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -179,6 +169,10 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
 
     @Override
     public void onLendCreated(Lend newLend) {
+        if(newLend == null){
+            return;
+        }
+
         lendAdapter.addLend(newLend);
     }
 }

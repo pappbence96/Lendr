@@ -36,6 +36,12 @@ public class LendsFragment extends Fragment {
         mainActivity = (MainActivity)getActivity();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.update(Lend.listAll(Lend.class));
+    }
+
     private void initRecyclerView() {
         recyclerView = view.findViewById(R.id.LendRecyclerView);
         adapter = new LendAdapter();
