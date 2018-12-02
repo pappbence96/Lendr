@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,12 +32,12 @@ import pappbence.bme.hu.lendr.fragments.NewLendDialogFragment;
 
 public class ItemDetailsActivity extends AppCompatActivity implements NewLendDialogFragment.NewLendDialogListener, NewItemDialogFragment.NewItemDialogListener {
 
-    LendrItem lendrItem;
-    LinearLayout imageBar;
-    TextView openLends;
-    TextView name;
-    TextView desc;
-    TextView category;
+    private LendrItem lendrItem;
+    private LinearLayout imageBar;
+    private TextView openLends;
+    private TextView name;
+    private TextView desc;
+    private TextView category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
         List<ItemImage> itemImages = lendrItem.getImages();
         for(ItemImage ii : itemImages){
             final Bitmap bmp = ii.getImage();
-            Log.d("imagedbg", "W: " + bmp.getWidth() + " H: " + bmp.getHeight());
             imageBar.post(new Runnable() {
                 @Override
                 public void run() {
@@ -75,11 +73,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
         }
         imageBar.invalidate();
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -127,7 +120,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
 
     private void takeItemPhoto() {
         if(lendrItem.getImages().size() >= 4){
-            Snackbar.make(findViewById(android.R.id.content), "An lendrItem can only store 4 photos.", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.item_details_toomanyphotos, Snackbar.LENGTH_LONG).show();
             return;
         }
         PickImageDialog.build(new PickSetup().setMaxSize(400)
@@ -141,18 +134,17 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
                 .show(getSupportFragmentManager());
     }
 
-    public void recordTakenImage(final Bitmap imageBitmap){
+    private void recordTakenImage(final Bitmap imageBitmap){
         ItemImage persistentImage = new ItemImage();
         persistentImage.Item = lendrItem;
         persistentImage.setImage(imageBitmap);
         persistentImage.save();
 
-        Log.d("imagedbg", "W: " + imageBitmap.getWidth() + " H: " + imageBitmap.getHeight());
         addImageToBar(imageBitmap);
 
     }
 
-    public void addImageToBar(final Bitmap imageBitmap){
+    private void addImageToBar(final Bitmap imageBitmap){
         ImageView imageView = new ImageView(
                 this);
         imageView.setImageBitmap(imageBitmap);
@@ -175,10 +167,10 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
         imageBar.addView(imageView);
     }
 
-    public void promptDeleteItem(){
+    private void promptDeleteItem(){
         new AlertDialog.Builder(this)
-                .setTitle("Delete lendrItem")
-                .setMessage("Do you really want to delete this item?")
+                .setTitle(R.string.item_details_delete_title)
+                .setMessage(R.string.item_details_delete_msg)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
@@ -188,12 +180,12 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
                 .setNegativeButton(android.R.string.no, null).show();
     }
 
-    public void promtDeleteItemLends(){
+    private void promtDeleteItemLends(){
         List<Lend> lends = lendrItem.getLends();
         if(lends.size() > 0){
             new AlertDialog.Builder(this)
-                    .setTitle("Delete item")
-                    .setMessage("Lends on this item will also be deleted. Do you want to continue?")
+                    .setTitle(R.string.item_details_delete_title)
+                    .setMessage(R.string.item_details_delete_lends)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
@@ -215,7 +207,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
         }
         String itemName = lendrItem.Name;
         lendrItem.delete();
-        Toast.makeText(getApplicationContext(), String.format("%1$s deleted", itemName), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), String.format(getString(R.string.item_details_item_deleted), itemName), Toast.LENGTH_LONG).show();
         this.finish();
     }
 

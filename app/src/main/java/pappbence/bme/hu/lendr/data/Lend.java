@@ -25,18 +25,9 @@ public class Lend extends SugarRecord<Lend> {
     }
 
     public Boolean conflictsWith(Lend o) {
-        if(StartDate.after(o.StartDate) && StartDate.before(o.EndDate)){
-            return true;
-        }
-        if(EndDate.after(o.StartDate) && EndDate.before(o.EndDate)){
-            return true;
-        }
-        if(o.StartDate.after(StartDate) && o.StartDate.before(EndDate)){
-            return true;
-        }
-        if(o.EndDate.after(o.StartDate) && o.EndDate.before(EndDate)){
-            return true;
-        }
-        return false;
+        return  (StartDate.after(o.StartDate) && StartDate.before(o.EndDate))
+            ||  (EndDate.after(o.StartDate) && EndDate.before(o.EndDate))
+            ||  (o.StartDate.after(StartDate) && o.StartDate.before(EndDate))
+            ||  (o.EndDate.after(o.StartDate) && o.EndDate.before(EndDate));
     }
 }

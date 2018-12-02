@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class MenuPagerAdapter extends FragmentPagerAdapter {
 
-    ArrayList<Pair<Fragment, String>> fragmentList = new ArrayList<>();
+    private ArrayList<Pair<Fragment, String>> fragmentList = new ArrayList<>();
 
     public void AddFragment(Fragment fragment, String title){
-        fragmentList.add(new Pair<Fragment, String>(fragment, title));
+        fragmentList.add(new Pair<>(fragment, title));
     }
 
     public MenuPagerAdapter(FragmentManager fm) {

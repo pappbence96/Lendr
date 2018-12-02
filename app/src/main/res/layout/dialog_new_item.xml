@@ -10,7 +10,7 @@
         android:id="@+id/ItemNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Item name"
+        android:hint="@string/new_item_name"
         app:met_floatingLabel="highlight"
         app:met_floatingLabelText="Item name"
         />
@@ -19,7 +19,7 @@
         android:id="@+id/ItemDescriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Item description"
+        android:hint="@string/new_item_description"
         app:met_floatingLabel="highlight"
         app:met_floatingLabelText="Item description"/>
 
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dip"
-        android:text="Item category"/>
+        android:text="@string/new_item_category"/>
 
     <Spinner
         android:id="@+id/ItemCategorySpinner"

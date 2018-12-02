@@ -10,7 +10,7 @@
         android:id="@+id/CategoryNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Category name"
+        android:hint="@string/new_category_name"
         app:met_floatingLabel="highlight"
         app:met_floatingLabelText="Category name"
         />
@@ -19,7 +19,7 @@
         android:id="@+id/setParentCb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Set parent category:"
+        android:text="@string/new_category_parent"
         android:checked="false"/>
 
     <Spinner

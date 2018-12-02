@@ -8,7 +8,8 @@
     android:paddingRight="8dp"
     android:paddingTop="8dp"
     android:weightSum="3"
-    android:background="@drawable/list_bg">
+    android:background="@drawable/list_bg"
+    android:baselineAligned="false">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -21,8 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="Category"/>
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/ParentCategoryTextView"
@@ -32,7 +32,6 @@
             android:layout_marginLeft="16dp"
             android:textSize="14sp"
             android:textStyle="italic"
-            android:text="↳Parent"
             />
 
     </LinearLayout>
@@ -46,13 +45,12 @@
         <TextView
             android:id="@+id/ItemCountTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="X"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" items in this category"/>
+            android:text="@string/category_list_items_in"/>
 
     </LinearLayout>
 

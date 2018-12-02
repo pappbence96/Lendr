@@ -59,7 +59,7 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
 
     private Boolean isValid(){
         if(TextUtils.isEmpty(nameEditText.getText())){
-            nameEditText.setError("Name can't be empty");
+            nameEditText.setError(getString(R.string.new_item_name_empty));
             return false;
         }
         //If there is an item with the same name ...
@@ -67,7 +67,7 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
             //... and it's not the item we started with ...
             if(!nameEditText.getText().toString().equals(startItem.Name)){
                 //... then block it.
-                nameEditText.setError("An Item with the same name already exists.");
+                nameEditText.setError(getString(R.string.new_item_name_duplicate));
                 return false;
             }
         }
@@ -78,10 +78,10 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                .setTitle("Add new Item")
+                .setTitle(R.string.new_item_title)
                 .setView(getContentView())
-                .setPositiveButton("Ok", null)
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create();
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override

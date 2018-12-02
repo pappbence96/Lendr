@@ -5,17 +5,17 @@
     <item
         android:id="@+id/action_sort"
         android:orderInCategory="1"
-        android:title="Sort by ..."
+        android:title="@string/item_menu_sort"
         app:showAsAction="ifRoom"
         android:icon="@drawable/baseline_sort_black_48">
 
         <menu>
             <item
                 android:id="@+id/action_sort_name"
-                android:title="Name"/>
+                android:title="@string/item_menu_name"/>
             <item
                 android:id="@+id/action_sort_category"
-                android:title="Category"/>
+                android:title="@string/item_menu_category"/>
         </menu>
 
     </item>

@@ -8,7 +8,7 @@ import pappbence.bme.hu.lendr.BitmapUtil;
 
 public class ItemImage extends SugarRecord<ItemImage>{
     public LendrItem Item;
-    public String BitmapString;
+    private String BitmapString;
 
     public Bitmap getImage(){
         return BitmapUtil.StringToBitmap(BitmapString);

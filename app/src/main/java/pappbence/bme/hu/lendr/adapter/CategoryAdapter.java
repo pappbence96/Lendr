@@ -82,7 +82,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         notifyDataSetChanged();
     }
 
-    public void categoryChanged(Category category) {
+    public void categoryChanged() {
         notifyDataSetChanged();
     }
 
@@ -90,10 +90,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         this.activity = activity;
     }
 
-    public void promptDeleteCategory(final Category category){
+    private void promptDeleteCategory(final Category category){
         new AlertDialog.Builder(activity)
-                .setTitle("Delete category")
-                .setMessage("Do you really want to delete this category?")
+                .setTitle(R.string.category_adapter_delete)
+                .setMessage(R.string.category_adapter_delete_msg)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
@@ -106,9 +106,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private void deleteCategory(Category category) {
         String errorMessage = "";
         if (category.getItems().size() != 0){
-            errorMessage = "Can't delete this category because it has items assigned to it.";
+            errorMessage = activity.getString(R.string.category_delete_error_items);
         } else if(category.getChildren().size() != 0){
-            errorMessage = "Can't delete this category because it has child categories.";
+            errorMessage = activity.getString(R.string.category_delete_error_child);
         }
         if(errorMessage.equals("")){
             categories.remove(category);
@@ -117,7 +117,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             return;
         }
         new AlertDialog.Builder(activity)
-                .setTitle("Can't delete category")
+                .setTitle(R.string.category_delete_error)
                 .setMessage(errorMessage)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setNegativeButton(android.R.string.no, null).show();
@@ -144,7 +144,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         Category category;
 
-        public CategoryViewHolder(@NonNull final View categoryView) {
+        CategoryViewHolder(@NonNull final View categoryView) {
             super(categoryView);
             categoryView.setTag(this);
             nameTextView = categoryView.findViewById(R.id.CategoryNameTextView);

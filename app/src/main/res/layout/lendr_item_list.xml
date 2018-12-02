@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/ItemImage"
-            android:contentDescription="Item image"
+            android:contentDescription="@string/item_list_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/placeholder16x9"/>
@@ -49,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
                 android:layout_marginLeft="10dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:layout_marginStart="10dp" />
 
         </LinearLayout>
 

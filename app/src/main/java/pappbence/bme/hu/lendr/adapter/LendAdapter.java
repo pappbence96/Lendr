@@ -26,7 +26,7 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
 
     private final List<Lend> lends;
     private MainActivity activity;
-    DateFormat dateFormat;
+    private DateFormat dateFormat;
 
     public LendAdapter(){
         lends = new ArrayList<>();
@@ -133,17 +133,16 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
                 if(l.getId() == lends.get(i).getId()){
                     lends.remove(i);
                     l.delete();
-                    continue;
                 }
             }
         }
         notifyDataSetChanged();
     }
 
-    public void promptDeleteLend(final Lend lend){
+    private void promptDeleteLend(final Lend lend){
         new AlertDialog.Builder(activity)
-                .setTitle("Delete lend")
-                .setMessage("Do you really want to delete this lend?")
+                .setTitle(R.string.delete_lend_title)
+                .setMessage(R.string.delete_lend_msg)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
@@ -169,7 +168,7 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
 
         Lend lend;
 
-        public LendViewHolder(@NonNull final View lendView) {
+        LendViewHolder(@NonNull final View lendView) {
             super(lendView);
             lendView.setTag(this);
             itemTextView = lendView.findViewById(R.id.LendItem);

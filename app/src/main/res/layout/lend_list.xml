@@ -21,25 +21,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Lendee"/>
+                android:text="@string/lend_list_lendee"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Item"/>
+                android:text="@string/lend_list_item"/>
 
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="Start"/>
+                android:text="@string/lend_list_start"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="End"/>
+                android:text="@string/lend_list_end"/>
 
     </LinearLayout>
 
@@ -49,7 +49,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_toRightOf="@id/TextContainer"
-        android:weightSum="4">
+        android:weightSum="4"
+        android:layout_toEndOf="@id/TextContainer">
 
         <TextView
             android:id="@+id/LendLendee"
@@ -58,7 +59,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
-            android:text="placeholder"
+            android:text="@string/placeholder"
             android:textStyle="bold"/>
 
         <TextView
@@ -68,7 +69,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
-            android:text="placeholder"
+            android:text="@string/placeholder"
             android:textStyle="bold" />
 
         <TextView
@@ -78,7 +79,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
-            android:text="placeholder"
+            android:text="@string/placeholder"
             android:textStyle="bold" />
 
         <TextView
@@ -88,7 +89,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_weight="1"
-            android:text="placeholder"
+            android:text="@string/placeholder"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -109,7 +110,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Closed"/>
+            android:text="@string/lend_list_closed"/>
 
     </LinearLayout>
 </RelativeLayout>

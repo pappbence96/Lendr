@@ -22,10 +22,10 @@ import pappbence.bme.hu.lendr.data.Lend;
 
 public class LendsFragment extends Fragment {
 
-    LendAdapter adapter;
-    View view;
-    RecyclerView recyclerView;
-    MainActivity mainActivity;
+    private LendAdapter adapter;
+    private View view;
+    private RecyclerView recyclerView;
+    private MainActivity mainActivity;
 
     @Nullable
     @Override
@@ -72,8 +72,8 @@ public class LendsFragment extends Fragment {
                 break;
             case R.id.action_delete_closed:
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Delete closed lends")
-                        .setMessage("Do you really want to delete all closed lends?")
+                        .setTitle(R.string.delete_closed_lend_title)
+                        .setMessage(R.string.delete_closed_lend_msg)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

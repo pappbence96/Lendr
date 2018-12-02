@@ -43,25 +43,20 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         TabLayout tl = findViewById(R.id.tabLayout);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         MenuPagerAdapter menuAdapter = new MenuPagerAdapter(getSupportFragmentManager());
-        menuAdapter.AddFragment(new ItemsFragment(), "Items");
-        menuAdapter.AddFragment(new CategoriesFragment(), "Categories");
-        menuAdapter.AddFragment(new LendsFragment(), "Lends");
+        menuAdapter.AddFragment(new ItemsFragment(), getString(R.string.pager_items));
+        menuAdapter.AddFragment(new CategoriesFragment(), getString(R.string.pager_categories));
+        menuAdapter.AddFragment(new LendsFragment(), getString(R.string.pager_lends));
         viewPager.setAdapter(menuAdapter);
         tl.setupWithViewPager(viewPager);
 
         InitAddButtons();
         InitTestData();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     private void InitTestData() {
@@ -86,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         lend.Item = i1;
         lend.Lendee = "Én, asdlolfgh";
         lend.StartDate = c.getTime();
-        c.set(2018, 12, 24, 18, 05, 00);
+        c.set(2018, 12, 24, 18, 5, 0);
         lend.EndDate = c.getTime();
         lend.Closed = false;
         lend.save();
@@ -121,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
             @Override
             public void onClick(View view) {
                 if(Category.listAll(Category.class).size() == 0){
-                    Snackbar.make(findViewById(android.R.id.content), "There are no categories so you can't add new items.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.no_category_error, Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 new NewItemDialogFragment().show(getSupportFragmentManager(), NewItemDialogFragment.TAG);
@@ -149,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
     public void onItemCreated(LendrItem newItem) {
         newItem.save();
         itemAdapter.addItem(newItem);
-        categoryAdapter.categoryChanged(newItem.Category);
+        categoryAdapter.categoryChanged();
     }
 
     @Override

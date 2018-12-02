@@ -16,7 +16,7 @@
             android:id="@+id/ItemDetailsName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Item name"
+            android:text="@string/item_details_item_name"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textAlignment="center"
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/ItemDetailsCategory"
-            android:text="Item category"
+            android:text="@string/item_details_item_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="italic"
@@ -50,7 +50,7 @@
             <TextView
                 android:id="@+id/ItemDetailsDescription"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_margin="4dp"/>
         </ScrollView>
@@ -60,7 +60,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -72,7 +73,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Open lends"
+                    android:text="@string/item_details_open_lends"
                     android:textAlignment="center"
                     android:textStyle="bold"/>
 
@@ -80,7 +81,7 @@
                     android:id="@+id/ItemDetailsOpenLends"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="placeholder"
+                    android:text="@string/placeholder"
                     android:textAlignment="center"/>
 
             </LinearLayout>
@@ -95,7 +96,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Closed lends"
+                    android:text="@string/item_details_closed"
                     android:textAlignment="center"
                     android:textStyle="bold"/>
 
@@ -103,7 +104,7 @@
                     android:id="@+id/ItemDetailsClosedLends"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="placeholder"
+                    android:text="@string/placeholder"
                     android:textAlignment="center"/>
 
             </LinearLayout>

@@ -104,7 +104,7 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
 
         LendrItem item;
 
-        public LendrItemViewHolder(@NonNull View itemView) {
+        LendrItemViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setTag(this);
             itemView.setOnClickListener(onItemClickListener);

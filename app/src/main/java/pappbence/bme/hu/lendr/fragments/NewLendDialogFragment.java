@@ -37,7 +37,7 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
     private EditText endDateEditText;
     private LendrItem startItem;
 
-    DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+    private DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
     public interface NewLendDialogListener {
         void onLendCreated(Lend newLend);
@@ -71,28 +71,28 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
 
     private Boolean isValid(){
         if(TextUtils.isEmpty(lendeeEditText.getText())){
-            lendeeEditText.setError("Lendee name cannot be empty");
+            lendeeEditText.setError(getString(R.string.new_lend_lendee_empty));
             return false;
         }
         if(TextUtils.isEmpty(startDateEditText.getText())){
-            startDateEditText.setError("Starting date cannot be empty");
+            startDateEditText.setError(getString(R.string.new_lend_start_empty));
             return false;
         }
         if(TextUtils.isEmpty(endDateEditText.getText())){
-            endDateEditText.setError("End date cannot be empty");
+            endDateEditText.setError(getString(R.string.new_lend_end_empty));
             return false;
         }
         Lend tmpLend = getLend();
         if(tmpLend.StartDate.after(tmpLend.EndDate)){
-            endDateEditText.setError("End date cannot preceed the start date");
+            endDateEditText.setError(getString(R.string.new_lend_date_preceed));
             return false;
         }
         List<Lend> potentialConflicts = tmpLend.Item.getLends(false);
         for(Lend l : potentialConflicts){
             if(l.conflictsWith(tmpLend)){
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Conflicting Lend intervals")
-                        .setMessage("There's already a lend on this item with an overlapping time interval.")
+                        .setTitle(R.string.new_lend_conflict_title)
+                        .setMessage(R.string.new_lend_conflict_msg)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, null)
                         .setNegativeButton(android.R.string.no, null).show();
@@ -106,10 +106,10 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                .setTitle("Add new Lend")
+                .setTitle(R.string.new_lend_title)
                 .setView(getContentView())
-                .setPositiveButton("Ok", null)
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create();
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
@@ -138,7 +138,7 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
             lend.StartDate = format.parse(startDateEditText.getText().toString());
             lend.EndDate = format.parse(endDateEditText.getText().toString());
         } catch(Exception e){
-            Toast.makeText(getContext(), "An error occurred while parsing input data.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.new_lend_parse_error, Toast.LENGTH_LONG).show();
             return null;
         }
 
@@ -170,9 +170,7 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
-
-                        int s=monthOfYear+1;
-                        startDateEditText.setText(dayOfMonth+"/"+s+"/"+year);
+                        startDateEditText.setText(String.format("%1$s/%2$s/%3$s", dayOfMonth, monthOfYear + 1, year));
                     }
                 };
 
@@ -189,9 +187,7 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
-
-                        int s=monthOfYear+1;
-                        endDateEditText.setText(dayOfMonth+"/"+s+"/"+year);
+                        startDateEditText.setText(String.format("%1$s/%2$s/%3$s", dayOfMonth, monthOfYear + 1, year));
                     }
                 };
 

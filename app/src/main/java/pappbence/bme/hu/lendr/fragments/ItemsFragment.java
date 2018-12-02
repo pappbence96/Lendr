@@ -22,10 +22,10 @@ import pappbence.bme.hu.lendr.data.LendrItem;
 
 public class ItemsFragment extends Fragment {
 
-    LendrItemAdapter adapter;
-    RecyclerView recyclerView;
-    MainActivity activity;
-    View view;
+    private LendrItemAdapter adapter;
+    private RecyclerView recyclerView;
+    private MainActivity activity;
+    private View view;
 
     @Nullable
     @Override

@@ -7,7 +7,7 @@
     <item
         android:id="@+id/action_add_image"
         android:orderInCategory="1"
-        android:title="Add image"
+        android:title="@string/item_details_add_image"
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_camera">
     </item>
@@ -16,14 +16,14 @@
         android:id="@+id/action_add_lend"
         android:orderInCategory="2"
         app:showAsAction="ifRoom"
-        android:title="Add lend"
+        android:title="@string/item_details_add_lend"
         android:icon="@android:drawable/ic_menu_my_calendar"
         />
 
     <item
         android:id="@+id/action_edit_item"
         android:orderInCategory="3"
-        android:title="Edit item"
+        android:title="@string/item_details_edit_item"
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_edit">
     </item>
@@ -31,7 +31,7 @@
     <item
         android:id="@+id/action_delete_item"
         android:orderInCategory="4"
-        android:title="Delete item"
+        android:title="@string/item_details_delete_item"
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_delete">
     </item>

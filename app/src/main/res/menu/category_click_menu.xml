@@ -3,9 +3,9 @@
 
     <item
         android:id="@+id/action_edit_category"
-        android:title="Edit"/>
+        android:title="@string/category_menu_edit"/>
 
     <item
         android:id="@+id/action_category_delete"
-        android:title="Delete"/>
+        android:title="@string/category_menu_delete"/>
 </menu>

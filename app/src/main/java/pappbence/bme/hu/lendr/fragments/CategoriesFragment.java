@@ -20,10 +20,10 @@ import pappbence.bme.hu.lendr.data.Category;
 
 public class CategoriesFragment extends Fragment {
 
-    CategoryAdapter adapter;
-    RecyclerView recyclerView;
-    MainActivity activity;
-    View view;
+    private CategoryAdapter adapter;
+    private RecyclerView recyclerView;
+    private MainActivity activity;
+    private View view;
 
 
     @Nullable

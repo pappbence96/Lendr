@@ -4,23 +4,23 @@
     <item
         android:id="@+id/action_sort"
         android:orderInCategory="1"
-        android:title="Sort by ..."
+        android:title="@string/lend_menu_sort"
         app:showAsAction="ifRoom"
         android:icon="@drawable/baseline_sort_black_48">
 
         <menu>
             <item
                 android:id="@+id/action_sort_item_name"
-                android:title="Item"/>
+                android:title="@string/lend_menu_item"/>
             <item
                 android:id="@+id/action_sort_lendee"
-                android:title="Lendee"/>
+                android:title="@string/lend_menu_lendee"/>
             <item
                 android:id="@+id/action_sort_start"
-                android:title="Start date"/>
+                android:title="@string/lend_menu_start"/>
             <item
                 android:id="@+id/action_sort_end"
-                android:title="End date"/>
+                android:title="@string/lend_menu_end"/>
         </menu>
 
     </item>
@@ -28,7 +28,7 @@
     <item
         android:id="@+id/action_delete_closed"
         android:orderInCategory="2"
-        android:title="Delete closed lends"
+        android:title="@string/lend_menu_delete_closed"
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_delete"/>
 </menu>

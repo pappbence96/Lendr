@@ -61,12 +61,12 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
 
     private Boolean isValid(){
         if(TextUtils.isEmpty(nameEditText.getText())){
-            nameEditText.setError("Name can't be empty");
+            nameEditText.setError(getString(R.string.new_category_name_empty));
             return false;
         }
         if(Category.findByName(nameEditText.getText().toString()).size() != 0){
             if(!nameEditText.getText().toString().equals(startCategory.Name)){
-                nameEditText.setError("A category with the same name already exists.");
+                nameEditText.setError(getString(R.string.new_category_name_duplicate));
                 return false;
             }
         }
@@ -77,10 +77,10 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                .setTitle("Add new Category")
+                .setTitle(R.string.new_category_title)
                 .setView(getContentView())
-                .setPositiveButton("Ok", null)
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton(android.R.string.ok, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .create();
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
@@ -115,7 +115,7 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked && Category.listAll(Category.class).size() == 0){
-                    Snackbar.make(contentView, "Can't add Parent because there are no categories.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(contentView, R.string.new_category_parent_error, Snackbar.LENGTH_LONG).show();
                     setParentCheckBox.setChecked(false);
                     return;
                 }
