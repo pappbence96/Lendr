@@ -5,8 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,14 +13,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import pappbence.bme.hu.lendr.MainActivity;
 import pappbence.bme.hu.lendr.R;
+import pappbence.bme.hu.lendr.data.ItemImage;
 import pappbence.bme.hu.lendr.data.LendrItem;
 
-public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.LendrItemViewHolder> implements Filterable {
+public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.LendrItemViewHolder>{
 
     private final List<LendrItem> items;
-    private ItemFilter filter;
 
     private View.OnClickListener onItemClickListener;
 
@@ -48,6 +46,10 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
         holder.nameTextView.setText(item.Name);
         holder.descriptionTextView.setText(item.Description);
         holder.categoryNameTextView.setText(item.Category.Name);
+        List<ItemImage> itemImages = item.getImages();
+        if(itemImages.size() > 0){
+            holder.imageView.setImageBitmap(itemImages.get(0).getImage());
+        }
         holder.item = item;
     }
 
@@ -90,62 +92,15 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
         notifyDataSetChanged();
     }
 
-    @Override
-    public Filter getFilter() {
-        if(filter == null){
-            filter = new ItemFilter(this, items);
-        }
-        return filter;
-    }
-
     public LendrItem getItem(int position) {
         return items.get(position);
-    }
-
-    public class ItemFilter extends Filter{
-
-        private final LendrItemAdapter adapter;
-        private final List<LendrItem> originalItems;
-        private final List<LendrItem> filteredItems;
-
-        public ItemFilter(LendrItemAdapter adapter, List<LendrItem> items){
-            this.originalItems = items;
-            this.adapter = adapter;
-            filteredItems = new ArrayList<>();
-        }
-
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            filteredItems.clear();
-            final FilterResults results = new FilterResults();
-
-            if(constraint.length() == 0){
-                filteredItems.addAll(originalItems);
-            } else{
-                final String filterString = constraint.toString();
-                for(LendrItem item : originalItems){
-                    if(item.Name.contains(filterString)){
-                        filteredItems.add(item);
-                    }
-                }
-            }
-            results.values = filteredItems;
-            results.count = filteredItems.size();
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            items.clear();
-            items.addAll(filteredItems);
-            adapter.notifyDataSetChanged();
-        }
     }
 
     public class LendrItemViewHolder extends RecyclerView.ViewHolder{
         TextView nameTextView;
         TextView descriptionTextView;
         TextView categoryNameTextView;
+        ImageView imageView;
 
         LendrItem item;
 
@@ -156,6 +111,7 @@ public class LendrItemAdapter extends RecyclerView.Adapter<LendrItemAdapter.Lend
             nameTextView = itemView.findViewById(R.id.LendrItemNameTextView);
             descriptionTextView = itemView.findViewById(R.id.LendrItemDescriptionTextView);
             categoryNameTextView = itemView.findViewById(R.id.LendrItemCategoryNameTextView);
+            imageView = itemView.findViewById(R.id.ItemImage);
         }
     }
 }
