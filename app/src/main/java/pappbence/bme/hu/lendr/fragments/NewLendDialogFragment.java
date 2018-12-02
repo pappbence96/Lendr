@@ -21,7 +21,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import fr.tvbarthel.lib.blurdialogfragment.SupportBlurDialogFragment;
@@ -82,16 +82,22 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
             endDateEditText.setError("End date cannot be empty");
             return false;
         }
-        try{
-            Date startDate = format.parse(startDateEditText.getText().toString());
-            Date endDate = format.parse(endDateEditText.getText().toString());
-            if(startDate.after(endDate)){
-                endDateEditText.setError("End date cannot be before the start date.");
+        Lend tmpLend = getLend();
+        if(tmpLend.StartDate.after(tmpLend.EndDate)){
+            endDateEditText.setError("End date cannot preceed the start date");
+            return false;
+        }
+        List<Lend> potentialConflicts = tmpLend.Item.getLends(false);
+        for(Lend l : potentialConflicts){
+            if(l.conflictsWith(tmpLend)){
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Conflicting Lend intervals")
+                        .setMessage("There's already a lend on this item with an overlapping time interval.")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, null)
+                        .setNegativeButton(android.R.string.no, null).show();
                 return false;
             }
-        } catch(Exception e){
-            Toast.makeText(getContext(), "An error occurred while parsing input data.", Toast.LENGTH_LONG).show();
-            return false;
         }
         return true;
     }

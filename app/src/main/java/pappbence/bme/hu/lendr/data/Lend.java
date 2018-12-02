@@ -23,4 +23,20 @@ public class Lend extends SugarRecord<Lend> {
                 .where(Condition.prop("closed").eq(closed ? "1" : "0"))
                 .list();
     }
+
+    public Boolean conflictsWith(Lend o) {
+        if(StartDate.after(o.StartDate) && StartDate.before(o.EndDate)){
+            return true;
+        }
+        if(EndDate.after(o.StartDate) && EndDate.before(o.EndDate)){
+            return true;
+        }
+        if(o.StartDate.after(StartDate) && o.StartDate.before(EndDate)){
+            return true;
+        }
+        if(o.EndDate.after(o.StartDate) && o.EndDate.before(EndDate)){
+            return true;
+        }
+        return false;
+    }
 }
