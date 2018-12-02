@@ -14,13 +14,10 @@ import android.widget.ImageView;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
-import java.util.Calendar;
-
 import pappbence.bme.hu.lendr.adapter.CategoryAdapter;
 import pappbence.bme.hu.lendr.adapter.LendAdapter;
 import pappbence.bme.hu.lendr.adapter.LendrItemAdapter;
 import pappbence.bme.hu.lendr.data.Category;
-import pappbence.bme.hu.lendr.data.ItemImage;
 import pappbence.bme.hu.lendr.data.Lend;
 import pappbence.bme.hu.lendr.data.LendrItem;
 import pappbence.bme.hu.lendr.fragments.CategoriesFragment;
@@ -56,35 +53,6 @@ public class MainActivity extends AppCompatActivity implements NewItemDialogFrag
         tl.setupWithViewPager(viewPager);
 
         InitAddButtons();
-        InitTestData();
-    }
-
-    private void InitTestData() {
-        Category.deleteAll(Category.class);
-        LendrItem.deleteAll(LendrItem.class);
-        ItemImage.deleteAll(ItemImage.class);
-        Lend.deleteAll(Lend.class);
-
-
-        Category cat1 = new Category("Butor", null);
-        cat1.save();
-        Category cat2 = new Category("Jatek", null);
-        cat2.save();
-        Category cat3 = new Category("Tarsas.", cat2);
-        cat3.save();
-        LendrItem i2 = new LendrItem("Asztal", "Ez meg egy masik butor, nagyon nagyon hosszu leirassal, ami valszeg nem fog kiferni a kepernyore", cat1);
-        i2.save();
-        LendrItem i1 = new LendrItem("Szek", "Ez egy butor", cat1);
-        i1.save();
-        Calendar c = Calendar.getInstance();
-        Lend lend = new Lend();
-        lend.Item = i1;
-        lend.Lendee = "Én, asdlolfgh";
-        lend.StartDate = c.getTime();
-        c.set(2018, 12, 24, 18, 5, 0);
-        lend.EndDate = c.getTime();
-        lend.Closed = false;
-        lend.save();
     }
 
     private void InitAddButtons() {
