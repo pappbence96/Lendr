@@ -47,10 +47,14 @@ public class ItemDetailsActivity extends AppCompatActivity {
         TextView name = findViewById(R.id.ItemDetailsName);
         TextView desc = findViewById(R.id.ItemDetailsDescription);
         TextView category = findViewById(R.id.ItemDetailsCategory);
+        TextView open = findViewById(R.id.ItemDetailsOpenLends);
+        TextView closed = findViewById(R.id.ItemDetailsClosedLends);
 
         name.setText(item.Name);
         desc.setText(item.Description);
         category.setText(item.Category.Name);
+        open.setText(String.valueOf(item.getLends(false).size()));
+        closed.setText(String.valueOf(item.getLends(true).size()));
 
         List<ItemImage> itemImages = item.getImages();
         for(ItemImage ii : itemImages){

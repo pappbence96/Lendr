@@ -42,6 +42,13 @@ public class LendrItem extends SugarRecord<LendrItem> implements Comparable<Lend
                 .list();
     }
 
+    public List<Lend> getLends(Boolean closed){
+        return Select.from(Lend.class)
+                .where(Condition.prop("item").eq(this.getId()),
+                        Condition.prop("closed").eq(closed ? "1" : "0"))
+                .list();
+    }
+
     public static List<LendrItem> findByName(String name){
         return Select.from(LendrItem.class)
                 .where(Condition.prop("name").eq(name))

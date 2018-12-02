@@ -40,13 +40,20 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LendAdapter.LendViewHolder lendViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final LendAdapter.LendViewHolder lendViewHolder, int i) {
         Lend lend = lends.get(i);
         lendViewHolder.itemTextView.setText(lend.Item.Name);
         lendViewHolder.lendeeTextView.setText(lend.Lendee);
         lendViewHolder.startDateTextView.setText(dateFormat.format(lend.StartDate));
         lendViewHolder.endDateTextView.setText(dateFormat.format(lend.EndDate));
         lendViewHolder.closedTextBox.setChecked(lend.Closed);
+        lendViewHolder.closedTextBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                lendViewHolder.lend.Closed = isChecked;
+                lendViewHolder.lend.save();
+            }
+        });
         lendViewHolder.lend = lend;
     }
 
@@ -89,12 +96,6 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
             startDateTextView = categoryView.findViewById(R.id.LendStartDate);
             endDateTextView = categoryView.findViewById(R.id.LendEndDate);
             closedTextBox = categoryView.findViewById(R.id.LendClosedCheckBox);
-            closedTextBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    lend.Closed = isChecked;
-                }
-            });
         }
     }
 }
