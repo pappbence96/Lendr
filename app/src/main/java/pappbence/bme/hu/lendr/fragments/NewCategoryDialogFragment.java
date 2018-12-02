@@ -65,8 +65,10 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
             return false;
         }
         if(Category.findByName(nameEditText.getText().toString()).size() != 0){
-            nameEditText.setError("A category with the same name already exists.");
-            return false;
+            if(!nameEditText.getText().toString().equals(startCategory.Name)){
+                nameEditText.setError("A category with the same name already exists.");
+                return false;
+            }
         }
         return true;
     }
@@ -125,6 +127,14 @@ public class NewCategoryDialogFragment extends SupportBlurDialogFragment {
                 android.R.layout.simple_spinner_dropdown_item, Category.listAll(Category.class)));
         if(startCategory != null){
             nameEditText.setText(startCategory.Name);
+            int pos;
+            for(pos = 0; pos < categorySpinner.getCount(); pos++){
+                Category tmpCategory = (Category) categorySpinner.getItemAtPosition(pos);
+                if(tmpCategory.equals(startCategory)){
+                    categorySpinner.setSelection(pos);
+                    break;
+                }
+            }
         }
         return contentView;
     }

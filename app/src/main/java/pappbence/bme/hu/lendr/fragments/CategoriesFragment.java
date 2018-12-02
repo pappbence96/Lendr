@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,6 +38,7 @@ public class CategoriesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MainActivity) getActivity();
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -42,6 +46,23 @@ public class CategoriesFragment extends Fragment {
         super.onResume();
         adapter.update(Category.listAll(Category.class));
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.categories_toolbar_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.action_sort_category_name:
+                adapter.SortByCategoryName();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void initRecyclerView() {
         recyclerView = view.findViewById(R.id.CategoryRecyclerView);

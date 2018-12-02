@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import pappbence.bme.hu.lendr.MainActivity;
@@ -124,6 +126,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public List<Category> getCategories() {
         return categories;
+    }
+
+    public void SortByCategoryName() {
+        Collections.sort(categories, new Comparator<Category>() {
+            @Override
+            public int compare(Category o1, Category o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        notifyDataSetChanged();
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder{

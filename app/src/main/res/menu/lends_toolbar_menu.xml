@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_sort"
+        android:orderInCategory="1"
+        android:title="Sort by ..."
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/baseline_sort_black_48">
+
+        <menu>
+            <item
+                android:id="@+id/action_sort_item_name"
+                android:title="Item"/>
+            <item
+                android:id="@+id/action_sort_lendee"
+                android:title="Lendee"/>
+            <item
+                android:id="@+id/action_sort_start"
+                android:title="Start date"/>
+            <item
+                android:id="@+id/action_sort_end"
+                android:title="End date"/>
+        </menu>
+
+    </item>
+</menu>

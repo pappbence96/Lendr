@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import pappbence.bme.hu.lendr.MainActivity;
@@ -78,8 +80,59 @@ public class LendAdapter extends RecyclerView.Adapter<LendAdapter.LendViewHolder
         notifyDataSetChanged();
     }
 
+    public void sortByEndDate() {
+        sort(new Comparator<Lend>() {
+            @Override
+            public int compare(Lend o1, Lend o2) {
+                if(o1.EndDate.after(o2.EndDate)){
+                    return 1;
+                } else if(o1.EndDate.before(o2.EndDate)){
+                    return -1;
+                }
+                return 0;
+            }
+        });
+    }
+
+    public void sortByStartDate() {
+        sort(new Comparator<Lend>() {
+            @Override
+            public int compare(Lend o1, Lend o2) {
+                if(o1.StartDate.after(o2.StartDate)){
+                    return 1;
+                } else if(o1.StartDate.before(o2.StartDate)){
+                    return -1;
+                }
+                return 0;
+            }
+        });
+    }
+
+    public void sortByLendee() {
+        sort(new Comparator<Lend>() {
+            @Override
+            public int compare(Lend o1, Lend o2) {
+                return o1.Lendee.compareTo(o2.Lendee);
+            }
+        });
+    }
+
+    public void sortByItemName() {
+        sort(new Comparator<Lend>() {
+            @Override
+            public int compare(Lend o1, Lend o2) {
+                return o1.Item.compareTo(o2.Item);
+            }
+        });
+    }
+
+    private void sort(Comparator<Lend> comp){
+        Collections.sort(lends, comp);
+        notifyDataSetChanged();
+    }
 
     public class LendViewHolder extends RecyclerView.ViewHolder{
+
         TextView itemTextView;
         TextView lendeeTextView;
         TextView startDateTextView;

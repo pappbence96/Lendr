@@ -125,6 +125,14 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
         if(startItem != null){
             nameEditText.setText(startItem.Name);
             descriptionEditText.setText(startItem.Description);
+            int pos;
+            for(pos = 0; pos < categorySpinner.getCount(); pos++){
+                Category tmpCategory = (Category) categorySpinner.getItemAtPosition(pos);
+                if(tmpCategory.equals(startItem.Category)){
+                    categorySpinner.setSelection(pos);
+                    break;
+                }
+            }
         }
         return contentView;
     }

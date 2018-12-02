@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import fr.tvbarthel.lib.blurdialogfragment.SupportBlurDialogFragment;
@@ -36,6 +37,7 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
     private EditText endDateEditText;
     private LendrItem startItem;
 
+    DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
     public interface NewLendDialogListener {
         void onLendCreated(Lend newLend);
@@ -73,11 +75,22 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
             return false;
         }
         if(TextUtils.isEmpty(startDateEditText.getText())){
-            lendeeEditText.setError("Starting date cannot be empty");
+            startDateEditText.setError("Starting date cannot be empty");
             return false;
         }
         if(TextUtils.isEmpty(endDateEditText.getText())){
-            lendeeEditText.setError("End date cannot be empty");
+            endDateEditText.setError("End date cannot be empty");
+            return false;
+        }
+        try{
+            Date startDate = format.parse(startDateEditText.getText().toString());
+            Date endDate = format.parse(endDateEditText.getText().toString());
+            if(startDate.after(endDate)){
+                endDateEditText.setError("End date cannot be before the start date.");
+                return false;
+            }
+        } catch(Exception e){
+            Toast.makeText(getContext(), "An error occurred while parsing input data.", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
@@ -115,7 +128,6 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
         lend.Item = (LendrItem)itemSpinner.getSelectedItem();
         lend.Lendee = lendeeEditText.getText().toString();
 
-        DateFormat format = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
         try{
             lend.StartDate = format.parse(startDateEditText.getText().toString());
             lend.EndDate = format.parse(endDateEditText.getText().toString());

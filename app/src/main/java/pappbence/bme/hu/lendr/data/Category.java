@@ -45,4 +45,8 @@ public class Category extends SugarRecord<Category> implements Comparable<Catego
                 .where(Condition.prop("name").eq(name))
                 .list();
     }
+
+    public boolean equals(Category other) {
+        return Name.equals(other.Name);
+    }
 }
