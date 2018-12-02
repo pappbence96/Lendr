@@ -31,11 +31,14 @@ import pappbence.bme.hu.lendr.fragments.ImagePreviewFragment;
 import pappbence.bme.hu.lendr.fragments.NewItemDialogFragment;
 import pappbence.bme.hu.lendr.fragments.NewLendDialogFragment;
 
-public class ItemDetailsActivity extends AppCompatActivity implements NewLendDialogFragment.NewLendDialogListener {
+public class ItemDetailsActivity extends AppCompatActivity implements NewLendDialogFragment.NewLendDialogListener, NewItemDialogFragment.NewItemDialogListener {
 
     LendrItem lendrItem;
     LinearLayout imageBar;
     TextView openLends;
+    TextView name;
+    TextView desc;
+    TextView category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +50,9 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
         long itemId = getIntent().getLongExtra("ItemId", 0);
         lendrItem = LendrItem.findById(LendrItem.class, itemId);
 
-        TextView name = findViewById(R.id.ItemDetailsName);
-        TextView desc = findViewById(R.id.ItemDetailsDescription);
-        TextView category = findViewById(R.id.ItemDetailsCategory);
+        name = findViewById(R.id.ItemDetailsName);
+        desc = findViewById(R.id.ItemDetailsDescription);
+        category = findViewById(R.id.ItemDetailsCategory);
         openLends = findViewById(R.id.ItemDetailsOpenLends);
         TextView closed = findViewById(R.id.ItemDetailsClosedLends);
 
@@ -99,7 +102,11 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
             return true;
         }
         if(id == R.id.action_edit_item){
-            Snackbar.make(findViewById(android.R.id.content), "Items can not be edited. Delete it and record it again.", Snackbar.LENGTH_LONG).show();
+            Bundle args = new Bundle();
+            args.putLong("itemId", lendrItem.getId());
+            NewItemDialogFragment f = new NewItemDialogFragment();
+            f.setArguments(args);
+            f.show(getSupportFragmentManager(), NewItemDialogFragment.TAG);
             return true;
         }
         if(id == R.id.action_add_lend){
@@ -107,7 +114,7 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
             args.putLong("itemId", lendrItem.getId());
             NewLendDialogFragment f = new NewLendDialogFragment();
             f.setArguments(args);
-            f.show(getSupportFragmentManager(), NewItemDialogFragment.TAG);
+            f.show(getSupportFragmentManager(), NewLendDialogFragment.TAG);
             return true;
         }
         if(id == R.id.action_delete_item){
@@ -217,5 +224,14 @@ public class ItemDetailsActivity extends AppCompatActivity implements NewLendDia
         newLend.save();
         int open = Integer.valueOf(openLends.getText().toString());
         openLends.setText(String.valueOf(open + 1));
+    }
+
+    @Override
+    public void onItemCreated(LendrItem newItem) {
+        lendrItem = newItem;
+        lendrItem.save();
+        name.setText(lendrItem.Name);
+        desc.setText(lendrItem.Description);
+        category.setText(lendrItem.Category.Name);
     }
 }

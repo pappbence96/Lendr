@@ -62,9 +62,14 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
             nameEditText.setError("Name can't be empty");
             return false;
         }
+        //If there is an item with the same name ...
         if(LendrItem.findByName(nameEditText.getText().toString()).size() != 0){
-            nameEditText.setError("An Item with the same name already exists.");
-            return false;
+            //... and it's not the item we started with ...
+            if(!nameEditText.getText().toString().equals(startItem.Name)){
+                //... then block it.
+                nameEditText.setError("An Item with the same name already exists.");
+                return false;
+            }
         }
         return true;
     }
@@ -97,7 +102,13 @@ public class NewItemDialogFragment extends SupportBlurDialogFragment {
     }
 
     private LendrItem getItem(){
-        LendrItem item = new LendrItem();
+        LendrItem item;
+        if(startItem != null){
+            item = startItem;
+        }
+        else{
+            item = new LendrItem();
+        }
         item.Name = nameEditText.getText().toString();
         item.Description = descriptionEditText.getText().toString();
         item.Category = (Category)categorySpinner.getSelectedItem();
