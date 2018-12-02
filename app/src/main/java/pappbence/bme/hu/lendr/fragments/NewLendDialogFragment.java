@@ -187,7 +187,7 @@ public class NewLendDialogFragment extends SupportBlurDialogFragment{
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
-                        startDateEditText.setText(String.format("%1$s/%2$s/%3$s", dayOfMonth, monthOfYear + 1, year));
+                        endDateEditText.setText(String.format("%1$s/%2$s/%3$s", dayOfMonth, monthOfYear + 1, year));
                     }
                 };
 
